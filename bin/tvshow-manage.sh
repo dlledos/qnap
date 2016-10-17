@@ -3,7 +3,7 @@
 PATH=/opt/bin:$PATH
 date
 SRC=${1:-.}
-DEST="/share/CACHEDEV1_DATA/Multimedia/Série"
+DEST=${2:-"/share/CACHEDEV1_DATA/Multimedia/Série"}
 IFS=$'\n'
 for I in $(find $SRC -type f -regex ".*[s|S][0-9]+[e|E][0-9]+.*[mkv|mp4|avi]$" | grep -v ".@__thumb")
 do
