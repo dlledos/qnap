@@ -11,3 +11,4 @@ do
 	echo mv "$I" "$DEST"
 	mv "$I" "$DEST"
 done
+
