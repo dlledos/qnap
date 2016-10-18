@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 BIN="/share/CACHEDEV1_DATA/bin/tvshow-manage.sh"
@@ -43,4 +43,7 @@ myTest "espace-dans-fichier" "machin S01E01 truc avi" "machin/machin.S01E01.truc
 myTest "commence-avec-un-point" ".machin S01E01 truc avi" "machin/machin.S01E01.truc.avi"
 myTest "commence-avec-un-tiret" "-machin S01E01 truc avi" "machin/machin.S01E01.truc.avi"
 myTest "nombre-sur-2-chiffres" "-machin S1E1 truc avi" "machin/machin.S01E01.truc.avi"
-myTest "StartWithS01E01" "S01E01.truc.avi" ""
+myTest "se-dans-le-texte-reste-se" "machin.S01E01.se.avi" "machin/machin.S01E01.se.avi"
+#Steven Universe S02E03(55) ou S01E48 - La visite surprise d'Oncle Grandpa (Say Uncle).mp4
+myTest "deux-fois-SxxExx-prends-le-1er" "machin.S02E03.truc.S01E48.bidule.mp4" "machin/machin.S02E03.truc.S01E48.bidule.mp4"
+myTest "parenthèse-après-SxxExx" "machin.S02E03(1).truc.mp4" "machin/machin.S02E03.(1).truc.mp4"
