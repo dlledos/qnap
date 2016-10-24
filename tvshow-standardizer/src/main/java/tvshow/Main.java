@@ -26,7 +26,7 @@ public class Main {
             return parser.parse(options, args);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            formatter.printHelp(args[0], options);
+            formatter.printHelp("tvshowManager", options);
             System.exit(1);
             return null;
         }

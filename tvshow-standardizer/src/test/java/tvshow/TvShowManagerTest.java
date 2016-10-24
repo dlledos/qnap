@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -32,8 +33,7 @@ public class TvShowManagerTest {
 
     @Test
     public void canMove() throws Exception {
-        File newFile = new File(sourceDirectory.getAbsolutePath(), "test.S01E01.truc.mkv");
-        newFile.createNewFile();
+        newFile("test.S01E01.truc.mkv");
 
         new TvShowManager(destinationDirectory).move(sourceDirectory);
 
@@ -41,5 +41,36 @@ public class TvShowManagerTest {
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
         assertThat(destinationDirectory.listFiles()[0].listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].listFiles()[0].getName()).isEqualTo("test.S01E01.truc.mkv");
+    }
+
+    @Test
+    public void canMoveVideoFileOnly() throws Exception {
+        newFile("test.S01E01.truc.mkv");
+        newFile("rien.a.voir.boby");
+
+        new TvShowManager(destinationDirectory).move(sourceDirectory);
+
+        assertThat(destinationDirectory.listFiles()).hasSize(1);
+        assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
+        assertThat(destinationDirectory.listFiles()[0].listFiles()).hasSize(1);
+        assertThat(destinationDirectory.listFiles()[0].listFiles()[0].getName()).isEqualTo("test.S01E01.truc.mkv");
+    }
+
+    @Test
+    public void canMoveTvShownFileOnly() throws Exception {
+        newFile("test.S01E01.truc.mkv");
+        newFile("rien.a.voir.boby.mkv");
+
+        new TvShowManager(destinationDirectory).move(sourceDirectory);
+
+        assertThat(destinationDirectory.listFiles()).hasSize(1);
+        assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
+        assertThat(destinationDirectory.listFiles()[0].listFiles()).hasSize(1);
+        assertThat(destinationDirectory.listFiles()[0].listFiles()[0].getName()).isEqualTo("test.S01E01.truc.mkv");
+    }
+
+    private void newFile(String filename) throws IOException {
+        File newFile = new File(sourceDirectory.getAbsolutePath(), filename);
+        newFile.createNewFile();
     }
 }

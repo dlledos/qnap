@@ -14,7 +14,7 @@ public class Standardizer {
     public static final int EPISODE_POSITION = 3;
     public static final int SEASON_POSITION = 2;
     public static final int NAME_POSITION = 1;
-    private static final Pattern pattern = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+    public static final Pattern TVSHOW = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
 
     public static String getNewFilename(File file) {
         String newFilename = standardize(file.getName());
@@ -47,7 +47,7 @@ public class Standardizer {
     }
 
     private static String find(String file, int position) {
-        Matcher matcher = pattern.matcher(file);
+        Matcher matcher = TVSHOW.matcher(file);
         if (matcher.find()) {
             return matcher.group(position);
         }

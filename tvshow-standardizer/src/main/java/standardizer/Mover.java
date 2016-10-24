@@ -17,6 +17,7 @@ public class Mover {
         String newDir = Standardizer.getNewDir(source);
         new File(destinationFolder.getPath(), newDir).mkdir();
         File target = Paths.get(destinationFolder.getPath(), newDir, Standardizer.getNewFilename(source)).toFile();
+        System.out.println("  moving " +source.getAbsolutePath() + " -> " + target.getAbsolutePath());
         Files.move(source.toPath(), target.toPath(), REPLACE_EXISTING);
     }
 }
