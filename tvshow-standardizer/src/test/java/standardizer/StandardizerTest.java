@@ -3,6 +3,10 @@ package standardizer;
 import org.junit.Test;
 import standardizer.Standardizer;
 
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.fest.assertions.Assertions.assertThat;
 
 public class StandardizerTest {
@@ -24,5 +28,19 @@ myTest "parenthèse-après-SxxExx" "machin.S02E03(1).truc.mp4" "machin/machin.S0
         String result = new Standardizer().transform("machin.S01E01.truc.avi");
 
         assertThat(result).isEqualTo("machin/machin.S01E01.truc.avi");
+    }
+
+
+    @Test
+    public void userDir() {
+        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        Path filePath = Paths.get(currentPath.toString(), "data", "foo.txt");
+        System.out.println(filePath.toString());
+    }
+
+    @Test
+    public void currentDir() {
+        Path filePath = Paths.get(".", "data", "foo.txt");
+        System.out.println(filePath.toString());
     }
 }
