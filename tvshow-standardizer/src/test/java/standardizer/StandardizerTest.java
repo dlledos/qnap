@@ -83,16 +83,4 @@ public class StandardizerTest {
         assertThat(Standardizer.getNewDir(file)).isEqualTo("machin");
     }
 
-    @Test
-    public void userDir() {
-        Path currentPath = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(currentPath.toString(), "data", "foo.txt");
-        System.out.println(filePath.toString());
-    }
-
-    @Test
-    public void currentDir() {
-        Path filePath = Paths.get(".", "data", "foo.txt");
-        System.out.println(filePath.toString());
-    }
 }

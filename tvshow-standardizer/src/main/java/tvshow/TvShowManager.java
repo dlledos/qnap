@@ -2,24 +2,22 @@ package tvshow;
 
 
 import standardizer.Mover;
-import standardizer.Standardizer;
-
 import java.io.File;
 import java.io.IOException;
 
-public class TvShowMover {
+public class TvShowManager {
 
 
     private File destinationDirectory;
 
-    public TvShowMover(File destinationDirectory) {
+    public TvShowManager(File destinationDirectory) {
         this.destinationDirectory = destinationDirectory;
     }
 
     public void move(File sourceDirectory) throws IOException {
+        Mover mover = new Mover(destinationDirectory);
         for (File file : sourceDirectory.listFiles()) {
-            new Mover(destinationDirectory).move(file);
+            mover.move(file);
         }
-
     }
 }

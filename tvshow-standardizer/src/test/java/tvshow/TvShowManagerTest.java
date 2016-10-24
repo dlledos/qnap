@@ -6,12 +6,11 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 
-public class TvShowMoverTest {
+public class TvShowManagerTest {
 
 
     private TemporaryFolder temporaryFolder;
@@ -36,7 +35,7 @@ public class TvShowMoverTest {
         File newFile = new File(sourceDirectory.getAbsolutePath(), "test.S01E01.truc.mkv");
         newFile.createNewFile();
 
-        new TvShowMover(destinationDirectory).move(sourceDirectory);
+        new TvShowManager(destinationDirectory).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
