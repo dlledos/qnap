@@ -1,9 +1,11 @@
 package tvshow;
 
 
+import standardizer.Mover;
 import standardizer.Standardizer;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TvShowMover {
 
@@ -14,10 +16,9 @@ public class TvShowMover {
         this.destinationDirectory = destinationDirectory;
     }
 
-    public void move(File sourceDirectory) {
+    public void move(File sourceDirectory) throws IOException {
         for (File file : sourceDirectory.listFiles()) {
-            Standardizer standardizer = new Standardizer(destinationDirectory);
-            file.renameTo(new File(standardizer.transform(file.getName())));
+            new Mover(destinationDirectory).move(file);
         }
 
     }

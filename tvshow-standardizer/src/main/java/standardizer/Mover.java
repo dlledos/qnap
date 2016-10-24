@@ -14,8 +14,9 @@ public class Mover {
     }
 
     public void move(File source) throws IOException {
-        new File(destinationFolder.getPath(), "machin").mkdir();
-        File target = Paths.get(destinationFolder.getPath(), "machin", source.getName()).toFile();
+        String newDir = Standardizer.getNewDir(source);
+        new File(destinationFolder.getPath(), newDir).mkdir();
+        File target = Paths.get(destinationFolder.getPath(), newDir, Standardizer.getNewFilename(source)).toFile();
         Files.move(source.toPath(), target.toPath(), REPLACE_EXISTING);
     }
 }

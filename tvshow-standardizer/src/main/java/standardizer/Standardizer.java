@@ -1,5 +1,6 @@
 package standardizer;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,30 +14,39 @@ public class Standardizer {
     public static final int EPISODE_POSITION = 3;
     public static final int SEASON_POSITION = 2;
     public static final int NAME_POSITION = 1;
-    private final Pattern pattern = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+    private static final Pattern pattern = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
 
-    public String transform(String file) {
-        String newFilename = findFilename(file);
-        return findTvshowName(newFilename) + "/" + newFilename;
+    public static String getNewFilename(File file) {
+        String newFilename = standardize(file.getName());
+        newFilename = findTvshowName(newFilename) + DOT_SEPARATOR
+                + SEASON_SEPARATOR + findSeasonNumber(newFilename)
+                + EPISODE_SEPARATOR + findEpisodeNumber(newFilename)
+                + DOT_SEPARATOR + findTitle(newFilename)
+                + DOT_SEPARATOR + findExtension(newFilename);
+        return newFilename;
     }
 
-    private String findFilename(String file) {
-        file = removeFirstCharNonAlphaNumeric(file);
+    public static String getNewDir(File file) {
+        return findTvshowName(file.getName());
+    }
+
+    private static String findTvshowName(String file) {
+        file = standardize(file);
+        return find(file, NAME_POSITION);
+    }
+
+    private static String standardize(String file) {
         file = replaceNonAlphanumCharWithDot(file);
         file = removeDuplicateDot(file);
-        file = findTvshowName(file) + DOT_SEPARATOR
-                + SEASON_SEPARATOR + findSeasonNumber(file)
-                + EPISODE_SEPARATOR + findEpisodeNumber(file)
-                + DOT_SEPARATOR + findTitle(file)
-                + DOT_SEPARATOR + findExtension(file);
+        file = removeFirstCharNonAlphaNumeric(file);
         return file;
     }
 
-    private String findExtension(String file) {
+    private static String findExtension(String file) {
         return find(file, EXTENSION_POSITION);
     }
 
-    private String find(String file, int position) {
+    private static String find(String file, int position) {
         Matcher matcher = pattern.matcher(file);
         if (matcher.find()) {
             return matcher.group(position);
@@ -44,23 +54,19 @@ public class Standardizer {
         return "??";
     }
 
-    private String findTitle(String file) {
+    private static String findTitle(String file) {
         return find(file, TITLE_POSITION);
     }
 
-    private String findEpisodeNumber(String file) {
+    private static String findEpisodeNumber(String file) {
         return String.format("%02d", Integer.valueOf(find(file, EPISODE_POSITION)));
     }
 
-    private String findSeasonNumber(String file) {
+    private static String findSeasonNumber(String file) {
         return String.format("%02d", Integer.valueOf(find(file, SEASON_POSITION)));
     }
 
-    private String findTvshowName(String file) {
-        return find(file, NAME_POSITION);
-    }
-
-    private String removeDuplicateDot(String file) {
+    private static String removeDuplicateDot(String file) {
         String result = new String();
         boolean dotAlreadyFound = false;
         for (int i = 0; i < file.length(); i++){
@@ -79,18 +85,14 @@ public class Standardizer {
         return result;
     }
 
-    private String replaceNonAlphanumCharWithDot(String file) {
+    private static String replaceNonAlphanumCharWithDot(String file) {
         return file.replaceAll("[^\\p{Alnum}]", DOT_SEPARATOR);
     }
 
-    private String removeFirstCharNonAlphaNumeric(String file) {
+    private static String removeFirstCharNonAlphaNumeric(String file) {
         if (! file.substring(0,1).matches("\\p{Alnum}")){
             file = file.substring(1);
         }
         return file;
-    }
-
-    public String getNewDir(String file) {
-        return findTvshowName(file);
     }
 }

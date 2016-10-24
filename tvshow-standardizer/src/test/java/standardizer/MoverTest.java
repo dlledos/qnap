@@ -45,6 +45,18 @@ public class MoverTest {
         assertThat(expectedFile).exists();
     }
 
+    @Test
+    public void moveAndStandardizeFile() throws IOException {
+        File sourceFile = Paths.get(sourceFolder.getPath(), "..machin S00E00 truc....avi").toFile();
+        sourceFile.createNewFile();
+        assertThat(sourceFile).exists();
+
+        new Mover(destinationFolder).move(sourceFile);
+
+        System.out.println(destinationFolder.list()[0]);
+        File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
+        assertThat(expectedFile).exists();
+    }
 
     @Test
     public void userDir() {
