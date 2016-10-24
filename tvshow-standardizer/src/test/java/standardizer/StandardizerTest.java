@@ -6,6 +6,9 @@ import standardizer.Standardizer;
 
 import java.io.File;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.fest.assertions.Assertions.assertThat;
 
 public class StandardizerTest {
@@ -81,15 +84,17 @@ public class StandardizerTest {
 
         assertThat(newDir).isEqualTo("machin");
     }
+    
+    @Test
+    public void userDir() {
+        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        Path filePath = Paths.get(currentPath.toString(), "data", "foo.txt");
+        System.out.println(filePath.toString());
+    }
 
     @Test
-    public void getNewFile() throws Exception {
-
-        TemporaryFolder temporaryFolder = new TemporaryFolder();
-        File newDir = new Standardizer(temporaryFolder.create()).getNewFile("machin.S02E03.truc.S01E48.bidule.mp4");
-
-        assertThat(newDir.getAbsolutePath()).contains("machin\\machin.S02E03.truc.S01E48.bidule.mp4");
-
-        temporaryFolder.delete();
+    public void currentDir() {
+        Path filePath = Paths.get(".", "data", "foo.txt");
+        System.out.println(filePath.toString());
     }
 }
