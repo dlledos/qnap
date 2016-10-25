@@ -6,16 +6,28 @@ import java.util.regex.Pattern;
 
 public class Standardizer {
 
-    public static final String SEASON_SEPARATOR = "S";
-    public static final String EPISODE_SEPARATOR = "E";
-    public static final String DOT_SEPARATOR = ".";
+    private static final String SEASON_SEPARATOR = "S";
+    private static final String EPISODE_SEPARATOR = "E";
+    private static final String DOT_SEPARATOR = ".";
     private static final int EXTENSION_POSITION = 5;
-    public static final int TITLE_POSITION = 4;
-    public static final int EPISODE_POSITION = 3;
-    public static final int SEASON_POSITION = 2;
-    public static final int NAME_POSITION = 1;
-    public static final Pattern TVSHOW = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+    private static final int TITLE_POSITION = 4;
+    private static final int EPISODE_POSITION = 3;
+    private static final int SEASON_POSITION = 2;
+    private static final int NAME_POSITION = 1;
+    public static final Pattern TVSHOW_S0XE0X = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+    public static final Pattern TVSHOW_ = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+/*
+        anything_s01e02.ext (1)
+                anything_s1e2.ext (1)
+                anything_s01.e02.ext (1)
+                anything_s01_e02.ext (1)
+                anything_1x02.ext (5)
+                anything_102.ext (6)
+*/
 
+/*
+    Heroes - s02e05-e08.mkv
+ */
     public static String getNewFilename(File file) {
         String newFilename = standardize(file.getName());
         newFilename = findTvshowName(newFilename) + DOT_SEPARATOR
@@ -47,7 +59,7 @@ public class Standardizer {
     }
 
     private static String find(String file, int position) {
-        Matcher matcher = TVSHOW.matcher(file);
+        Matcher matcher = TVSHOW_S0XE0X.matcher(file);
         if (matcher.find()) {
             return matcher.group(position);
         }

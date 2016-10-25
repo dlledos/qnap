@@ -20,7 +20,7 @@ public class TvShowManager {
         Mover mover = new Mover(destinationDirectory);
         int movedFileCount = 0;
         System.out.println("Starting scan of " + sourceDirectory.getAbsolutePath());
-        for (File file : sourceDirectory.listFiles((dir, name) -> name.matches(Standardizer.TVSHOW.pattern()))) {
+        for (File file : sourceDirectory.listFiles((dir, name) -> name.matches(Standardizer.TVSHOW_S0XE0X.pattern()))) {
             mover.move(file);
         }
         System.out.println("Moved " + movedFileCount + " file from " + sourceDirectory.getAbsolutePath() + " to "  + destinationDirectory.getAbsolutePath());
