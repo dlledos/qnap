@@ -16,17 +16,23 @@ public class Main {
         String sourceDirectory = cmd.getOptionValue("sourceDirectory");
         String destinationDirectory = cmd.getOptionValue("destinationDirectory");
 
-        new TvShowManager(new File(destinationDirectory)).move(new File(sourceDirectory));
+        try {
+            new TvShowManager(new File(destinationDirectory)).move(new File(sourceDirectory));
+        }
+        catch (Exception e){
+            System.out.println("Can't move file " + e);
+            new HelpFormatter().printHelp("tvshowManager", options);
+            System.exit(1);
+        }
     }
 
     private static CommandLine parse(String[] args, Options options) {
         CommandLineParser parser = new DefaultParser();
-        HelpFormatter formatter = new HelpFormatter();
         try {
             return parser.parse(options, args);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            formatter.printHelp("tvshowManager", options);
+            new HelpFormatter().printHelp("tvshowManager", options);
             System.exit(1);
             return null;
         }
