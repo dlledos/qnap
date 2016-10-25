@@ -9,7 +9,7 @@
     <version>0.1-SNAPSHOT</version>
 
     <scm>
-        <developerConnection>scm:git:git@github.com:dlledos/qnap.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
