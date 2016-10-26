@@ -9,12 +9,12 @@ public class Standardizer {
     private static final String SEASON_SEPARATOR = "S";
     private static final String EPISODE_SEPARATOR = "E";
     private static final String DOT_SEPARATOR = ".";
-    private static final int EXTENSION_POSITION = 5;
-    private static final int TITLE_POSITION = 4;
-    private static final int EPISODE_POSITION = 3;
+    private static final int EXTENSION_POSITION = 6;
+    private static final int TITLE_POSITION = 5;
+    private static final int EPISODE_POSITION = 4;
     private static final int SEASON_POSITION = 2;
     private static final int NAME_POSITION = 1;
-    public static final Pattern TVSHOW_S0XE0X = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+    public static final Pattern TVSHOW_S0XE0X = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+(" + EPISODE_SEPARATOR + "|"+EPISODE_SEPARATOR+DOT_SEPARATOR+")?([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
     public static final Pattern TVSHOW_ = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
 /*
         anything_s01e02.ext (1)
