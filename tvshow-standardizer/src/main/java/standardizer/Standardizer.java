@@ -14,20 +14,17 @@ public class Standardizer {
     private static final int EPISODE_POSITION = 4;
     private static final int SEASON_POSITION = 2;
     private static final int NAME_POSITION = 1;
-    public static final Pattern TVSHOW_S0XE0X = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+(" + EPISODE_SEPARATOR + "|"+EPISODE_SEPARATOR+DOT_SEPARATOR+")?([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
-    public static final Pattern TVSHOW_ = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR+ "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" +DOT_SEPARATOR+"(.*)"+DOT_SEPARATOR+"(mp4|avi|mkv)");
+    public static final Pattern TVSHOW_S0XE0X = Pattern.compile("(.*?)" + DOT_SEPARATOR
+            + SEASON_SEPARATOR + "([0-9])+(" + EPISODE_SEPARATOR + "|" + DOT_SEPARATOR + EPISODE_SEPARATOR + ")?([0-9])+"
+            + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)");
+
+    public static final Pattern TVSHOW_ = Pattern.compile("(.*?)" + DOT_SEPARATOR + SEASON_SEPARATOR + "([0-9])+" + EPISODE_SEPARATOR + "([0-9])+" + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)");
 /*
-        anything_s01e02.ext (1)
-                anything_s1e2.ext (1)
-                anything_s01.e02.ext (1)
-                anything_s01_e02.ext (1)
-                anything_1x02.ext (5)
                 anything_102.ext (6)
 */
-
-/*
-    Heroes - s02e05-e08.mkv
- */
+    /*
+        Heroes - s02e05-e08.mkv
+     */
     public static String getNewFilename(File file) {
         String newFilename = standardize(file.getName());
         newFilename = findTvshowName(newFilename) + DOT_SEPARATOR
@@ -81,16 +78,15 @@ public class Standardizer {
     private static String removeDuplicateDot(String file) {
         String result = new String();
         boolean dotAlreadyFound = false;
-        for (int i = 0; i < file.length(); i++){
+        for (int i = 0; i < file.length(); i++) {
             char charFound = file.charAt(i);
-            if (charFound == DOT_SEPARATOR.charAt(0)){
-                if (!dotAlreadyFound){
-                    result+= charFound;
+            if (charFound == DOT_SEPARATOR.charAt(0)) {
+                if (!dotAlreadyFound) {
+                    result += charFound;
                 }
                 dotAlreadyFound = true;
-            }
-            else {
-                result+= charFound;
+            } else {
+                result += charFound;
                 dotAlreadyFound = false;
             }
         }
@@ -102,7 +98,7 @@ public class Standardizer {
     }
 
     private static String removeFirstCharNonAlphaNumeric(String file) {
-        if (! file.substring(0,1).matches("\\p{Alnum}")){
+        if (!file.substring(0, 1).matches("\\p{Alnum}")) {
             file = file.substring(1);
         }
         return file;
