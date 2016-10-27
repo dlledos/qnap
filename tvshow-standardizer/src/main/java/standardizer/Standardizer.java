@@ -8,7 +8,7 @@ public class Standardizer {
 
     private static final String SEASON_SEPARATOR = "S";
     private static final String EPISODE_SEPARATOR = "E";
-    private static final String EPISODE_SEPARATOR_X = "(?:x|X)?";
+    private static final String EPISODE_SEPARATOR_X = "(?:x|X)";
     private static final String DOT_SEPARATOR = ".";
     private static final int EXTENSION_POSITION = 5;
     private static final int TITLE_POSITION = 4;
