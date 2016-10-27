@@ -19,12 +19,14 @@ public class MoverTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private File destinationFolder;
     private File sourceFolder;
+    private Standardizer standardizer;
 
 
     @Before
     public void before() throws IOException {
         destinationFolder = temporaryFolder.newFolder();
         sourceFolder = temporaryFolder.newFolder();
+        standardizer = new Standardizer(Standardizer.TVSHOW_S0XE0X);
     }
 
     @After
@@ -39,7 +41,7 @@ public class MoverTest {
         sourceFile.createNewFile();
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder).move(sourceFile);
+        new Mover(destinationFolder, standardizer).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -51,7 +53,7 @@ public class MoverTest {
         sourceFile.createNewFile();
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder).move(sourceFile);
+        new Mover(destinationFolder, standardizer).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();

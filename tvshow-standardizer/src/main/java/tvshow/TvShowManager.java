@@ -6,6 +6,7 @@ import standardizer.Standardizer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class TvShowManager {
 
@@ -17,12 +18,23 @@ public class TvShowManager {
     }
 
     public void move(File sourceDirectory) throws IOException {
-        Mover mover = new Mover(destinationDirectory);
-        int movedFileCount = 0;
         System.out.println("Starting scan of " + sourceDirectory.getAbsolutePath());
-        for (File file : sourceDirectory.listFiles((dir, name) -> name.matches(Standardizer.TVSHOW_S0XE0X.pattern()))) {
-            mover.move(file);
-        }
+        int movedFileCount = 0;
+        movedFileCount += standardizeTvShow(sourceDirectory, Standardizer.TVSHOW_S0XE0X);
+        movedFileCount += standardizeTvShow(sourceDirectory, Standardizer.TVSHOW_1x01);
+        movedFileCount += standardizeTvShow(sourceDirectory, Standardizer.TVSHOW_101);
         System.out.println("Moved " + movedFileCount + " file from " + sourceDirectory.getAbsolutePath() + " to "  + destinationDirectory.getAbsolutePath());
     }
+
+    private int standardizeTvShow(File sourceDirectory, Pattern pattern) throws IOException {
+        Standardizer standardizer = new Standardizer(pattern);
+        Mover mover = new Mover(destinationDirectory, standardizer);
+        int movedFileCount = 0;
+        for (File file : standardizer.findMatchingFile(sourceDirectory)) {
+            mover.move(file);
+            movedFileCount++;
+        }
+        return movedFileCount;
+    }
+
 }
