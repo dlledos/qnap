@@ -1,14 +1,33 @@
 package standardizer;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 public class StandardizerTest {
 
+
+    private File sourceDirectory;
+    private TemporaryFolder temporaryFolder;
+
+    @Before
+    public void setUp() throws Exception {
+        temporaryFolder = new TemporaryFolder();
+        temporaryFolder.create();
+        sourceDirectory = temporaryFolder.newFolder();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        temporaryFolder.delete();
+    }
 
     @Test
     public void nominal() throws Exception {
@@ -121,4 +140,19 @@ public class StandardizerTest {
         assertThat(standardizer.getNewDir(file)).isEqualTo("machin");
     }
 
+    private void newFile(String filename) throws IOException {
+        File newFile = new File(sourceDirectory.getAbsolutePath(), filename);
+        newFile.createNewFile();
+    }
+    @Test
+    public void name() throws Exception {
+        newFile("machin.1x01.truc.avi");
+        newFile("machin.0203.truc.avi");
+        Standardizer standardizer = new Standardizer(Standardizer.TVSHOW_1x01);
+
+        File[] matchingFile = standardizer.findMatchingFile(sourceDirectory);
+
+        assertThat(matchingFile).hasSize(1);
+
+    }
 }
