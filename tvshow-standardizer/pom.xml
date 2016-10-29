@@ -4,7 +4,7 @@
 
     <groupId>org.nas.tvshow</groupId>
     <artifactId>standardizer</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
@@ -13,7 +13,7 @@
     <distributionManagement>
         <repository>
             <id>ssh-repository</id>
-            <url>scp://192.168.0.164/repository</url>
+            <url>scp://192.168.0.164:12345/share/CACHEDEV1_DATA/repository/</url>
         </repository>
     </distributionManagement>
     <build>
