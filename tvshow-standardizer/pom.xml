@@ -4,11 +4,11 @@
 
     <groupId>org.nas.tvshow</groupId>
     <artifactId>standardizer</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
-        <tag>standardizer-1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
