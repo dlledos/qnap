@@ -86,7 +86,7 @@ public class StandardizerTest {
     }
 
     @Test
-    public void parenthèseAprèsSxxExx() throws Exception {
+    public void parentheseApresSxxExx() throws Exception {
         File file = new File("machin.S02E03(1).truc.mp4");
         Standardizer standardizer = new Standardizer(Standardizer.TvShownPattern.S0XE0X);
         assertThat(standardizer.getNewFilename(file)).isEqualTo("machin.S02E03.1.truc.mp4");
