@@ -26,7 +26,7 @@ public class MoverTest {
     public void before() throws IOException {
         destinationFolder = temporaryFolder.newFolder();
         sourceFolder = temporaryFolder.newFolder();
-        standardizer = new Standardizer(Standardizer.TVSHOW_S0XE0X);
+        standardizer = new Standardizer(Standardizer.TvShownPattern.S0XE0X);
     }
 
     @After

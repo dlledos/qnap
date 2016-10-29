@@ -16,22 +16,29 @@ public class Standardizer {
     private static final int SEASON_POSITION = 2;
     private static final int NAME_POSITION = 1;
 
-    public static final Pattern TVSHOW_S0XE0X = Pattern.compile("(.*?)" + DOT_SEPARATOR
-            + SEASON_SEPARATOR +"([0-9])+(?:" + EPISODE_SEPARATOR + "|" + DOT_SEPARATOR + EPISODE_SEPARATOR + ")?([0-9])+"
-            + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)");
+    public enum TvShownPattern {
+        S0XE0X("(.*?)" + DOT_SEPARATOR
+                + SEASON_SEPARATOR + "([0-9])+(?:" + EPISODE_SEPARATOR + "|" + DOT_SEPARATOR + EPISODE_SEPARATOR + ")?([0-9])+"
+                + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)"),
+        _1x01("(.*?)" + DOT_SEPARATOR
+                + "([0-9])+" + EPISODE_SEPARATOR_X + "([0-9])+"
+                + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)"),
+        _101("(.*?)" + DOT_SEPARATOR
+                + "([0-9])+" + "([0-9][0-9])"
+                + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)");
+        public Pattern pattern;
 
-    public static final Pattern TVSHOW_1x01 = Pattern.compile("(.*?)" + DOT_SEPARATOR
-            + "([0-9])+" + EPISODE_SEPARATOR_X + "([0-9])+"
-            + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)");
+        TvShownPattern(String pattern) {
+            this.pattern = Pattern.compile(pattern);
+        }
 
-    public static final Pattern TVSHOW_101 = Pattern.compile("(.*?)" + DOT_SEPARATOR
-            + "([0-9])+" + "([0-9][0-9])"
-            + DOT_SEPARATOR + "(.*)" + DOT_SEPARATOR + "(mp4|avi|mkv)");
+    }
 
-    public Pattern pattern;
+    ;
+    private TvShownPattern tvShownPattern;
 
-    public Standardizer(Pattern pattern) {
-        this.pattern = pattern;
+    public Standardizer(TvShownPattern tvShownPattern) {
+        this.tvShownPattern = tvShownPattern;
     }
 
     public String getNewFilename(File file) {
@@ -48,43 +55,43 @@ public class Standardizer {
         return findTvshowName(file.getName());
     }
 
-    private  String findTvshowName(String file) {
+    private String findTvshowName(String file) {
         file = standardize(file);
         return find(file, NAME_POSITION);
     }
 
-    private  String standardize(String file) {
+    private String standardize(String file) {
         file = replaceNonAlphanumCharWithDot(file);
         file = removeDuplicateDot(file);
         file = removeFirstCharNonAlphaNumeric(file);
         return file;
     }
 
-    private  String findExtension(String file) {
+    private String findExtension(String file) {
         return find(file, EXTENSION_POSITION);
     }
 
-    private  String find(String file, int position) {
-        Matcher matcher = pattern.matcher(file);
+    private String find(String file, int position) {
+        Matcher matcher = tvShownPattern.pattern.matcher(file);
         if (matcher.find()) {
             return matcher.group(position);
         }
         return "??";
     }
 
-    private  String findTitle(String file) {
+    private String findTitle(String file) {
         return find(file, TITLE_POSITION);
     }
 
-    private  String findEpisodeNumber(String file) {
+    private String findEpisodeNumber(String file) {
         return String.format("%02d", Integer.valueOf(find(file, EPISODE_POSITION)));
     }
 
-    private  String findSeasonNumber(String file) {
+    private String findSeasonNumber(String file) {
         return String.format("%02d", Integer.valueOf(find(file, SEASON_POSITION)));
     }
 
-    private  String removeDuplicateDot(String file) {
+    private String removeDuplicateDot(String file) {
         String result = new String();
         boolean dotAlreadyFound = false;
         for (int i = 0; i < file.length(); i++) {
@@ -102,11 +109,11 @@ public class Standardizer {
         return result;
     }
 
-    private  String replaceNonAlphanumCharWithDot(String file) {
+    private String replaceNonAlphanumCharWithDot(String file) {
         return file.replaceAll("[^\\p{Alnum}]", DOT_SEPARATOR);
     }
 
-    private  String removeFirstCharNonAlphaNumeric(String file) {
+    private String removeFirstCharNonAlphaNumeric(String file) {
         if (!file.substring(0, 1).matches("\\p{Alnum}")) {
             file = file.substring(1);
         }
@@ -114,6 +121,6 @@ public class Standardizer {
     }
 
     public File[] findMatchingFile(File sourceDirectory) {
-        return sourceDirectory.listFiles((dir, name) -> name.matches(pattern.pattern()));
+        return sourceDirectory.listFiles((dir, name) -> name.matches(tvShownPattern.pattern.pattern()));
     }
 }

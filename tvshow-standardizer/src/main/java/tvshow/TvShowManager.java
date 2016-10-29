@@ -20,13 +20,13 @@ public class TvShowManager {
     public void move(File sourceDirectory) throws IOException {
         System.out.println("Starting scan of " + sourceDirectory.getAbsolutePath());
         int movedFileCount = 0;
-        movedFileCount += standardizeTvShow(sourceDirectory, Standardizer.TVSHOW_S0XE0X);
-        movedFileCount += standardizeTvShow(sourceDirectory, Standardizer.TVSHOW_1x01);
-        movedFileCount += standardizeTvShow(sourceDirectory, Standardizer.TVSHOW_101);
+        for (Standardizer.TvShownPattern tvShownPattern : Standardizer.TvShownPattern.values()) {
+            movedFileCount += standardizeTvShow(sourceDirectory, tvShownPattern);
+        }
         System.out.println("Moved " + movedFileCount + " file from " + sourceDirectory.getAbsolutePath() + " to "  + destinationDirectory.getAbsolutePath());
     }
 
-    private int standardizeTvShow(File sourceDirectory, Pattern pattern) throws IOException {
+    private int standardizeTvShow(File sourceDirectory, Standardizer.TvShownPattern pattern) throws IOException {
         Standardizer standardizer = new Standardizer(pattern);
         Mover mover = new Mover(destinationDirectory, standardizer);
         int movedFileCount = 0;
