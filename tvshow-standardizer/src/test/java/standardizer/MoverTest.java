@@ -37,8 +37,7 @@ public class MoverTest {
 
     @Test
     public void move() throws IOException {
-        File sourceFile = Paths.get(sourceFolder.getPath(), "machin.S00E00.truc.avi").toFile();
-        sourceFile.createNewFile();
+        File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi");
         assertThat(sourceFile).exists();
 
         new Mover(destinationFolder, standardizer).move(sourceFile);
@@ -49,8 +48,7 @@ public class MoverTest {
 
     @Test
     public void moveAndStandardizeFile() throws IOException {
-        File sourceFile = Paths.get(sourceFolder.getPath(), "..machin S00E00 truc....avi").toFile();
-        sourceFile.createNewFile();
+        File sourceFile = newFile(sourceFolder, "..machin S00E00 truc....avi");
         assertThat(sourceFile).exists();
 
         new Mover(destinationFolder, standardizer).move(sourceFile);
@@ -60,15 +58,24 @@ public class MoverTest {
     }
 
     @Test
-    public void userDir() {
-        Path currentPath = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(currentPath.toString(), "data", "foo.txt");
-        System.out.println(filePath.toString());
+    public void changeNameIfFileAlreadyExist() throws Exception {
+        String filename = "machin.S00E00.truc.avi";
+        File sourceFile = newFile(sourceFolder, filename);
+        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), filename).toString());
+        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString());
+        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString());
+        new Mover(destinationFolder, standardizer).move(sourceFile);
+
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy2.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy3.avi").toFile()).exists();
     }
 
-    @Test
-    public void currentDir() {
-        Path filePath = Paths.get(".", "data", "foo.txt");
-        System.out.println(filePath.toString());
+    private File newFile(File folder, String filename) throws IOException {
+        File sourceFile = Paths.get(folder.getPath(), filename).toFile();
+        sourceFile.mkdirs();
+        sourceFile.createNewFile();
+        return sourceFile;
     }
 }
