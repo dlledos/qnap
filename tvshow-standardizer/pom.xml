@@ -12,7 +12,12 @@
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
+    <distributionManagement>
+        <repository>
+            <id>ssh-repository</id>
+            <url>scpexe://192.168.0.164/repository</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
