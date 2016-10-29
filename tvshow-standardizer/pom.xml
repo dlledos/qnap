@@ -5,7 +5,7 @@
 
     <groupId>org.nas.tvshow</groupId>
     <artifactId>standardizer</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
