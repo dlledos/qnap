@@ -1,4 +1,5 @@
 #!/bin/sh
+export PATH=/opt/bin:$PATH
 
 DESTINATION="/tmp/crontab.list"
 LOG_DIR="/share/CACHEDEV1_DATA/log"

@@ -1,4 +1,5 @@
 #!/bin/sh
+export PATH=/opt/bin:$PATH
 
 SSHKEY="/root/.ssh/authorized_keys"
 # La clé se trouve dans C:\Users\Did\.ssh\id_rsa.ppk à ouvrir avec PuTTYgen
