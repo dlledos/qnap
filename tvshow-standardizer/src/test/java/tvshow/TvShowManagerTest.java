@@ -1,5 +1,6 @@
 package tvshow;
 
+import javafx.collections.transformation.SortedList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -79,19 +81,21 @@ public class TvShowManagerTest {
 
         new TvShowManager(destinationDirectory).move(sourceDirectory);
 
-        assertThat(destinationDirectory.listFiles()).hasSize(3);
-        assertThat(destinationDirectory.listFiles()[1].getName()).isEqualTo("test");
-        assertThat(destinationDirectory.listFiles()[1].listFiles()).hasSize(1);
-        assertThat(destinationDirectory.listFiles()[1].listFiles()[0].getName()).isEqualTo("test.S01E01.truc.mkv");
 
-        assertThat(destinationDirectory.listFiles()[2].getName()).isEqualTo("youpi");
-        assertThat(destinationDirectory.listFiles()[2].listFiles()).hasSize(1);
-        assertThat(destinationDirectory.listFiles()[2].listFiles()[0].getName()).isEqualTo("youpi.S01E02.cestlafete.mkv");
+        File[] listFiles = destinationDirectory.listFiles();
+        Arrays.sort(listFiles);
+        assertThat(listFiles).hasSize(3);
+        assertThat(listFiles[0].getName()).isEqualTo("pouet");
+        assertThat(listFiles[0].listFiles()).hasSize(1);
+        assertThat(listFiles[0].listFiles()[0].getName()).isEqualTo("pouet.S04E07.cestlafete.mkv");
 
-        assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("pouet");
-        assertThat(destinationDirectory.listFiles()[0].listFiles()).hasSize(1);
-        assertThat(destinationDirectory.listFiles()[0].listFiles()[0].getName()).isEqualTo("pouet.S04E07.cestlafete.mkv");
+        assertThat(listFiles[1].getName()).isEqualTo("test");
+        assertThat(listFiles[1].listFiles()).hasSize(1);
+        assertThat(listFiles[1].listFiles()[0].getName()).isEqualTo("test.S01E01.truc.mkv");
 
+        assertThat(listFiles[2].getName()).isEqualTo("youpi");
+        assertThat(listFiles[2].listFiles()).hasSize(1);
+        assertThat(listFiles[2].listFiles()[0].getName()).isEqualTo("youpi.S01E02.cestlafete.mkv");
     }
 
     private void newFile(String filename) throws IOException {
