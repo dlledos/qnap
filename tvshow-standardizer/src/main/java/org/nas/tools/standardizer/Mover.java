@@ -1,15 +1,12 @@
-package standardizer;
+package org.nas.tools.standardizer;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Mover {
     private final File destinationFolder;

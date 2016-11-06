@@ -1,14 +1,14 @@
-package standardizer;
+package org.nas.tools.standardizer;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.nas.tools.tvshow.TvShowStandardizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -19,14 +19,14 @@ public class MoverTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private File destinationFolder;
     private File sourceFolder;
-    private Standardizer standardizer;
+    private TvShowStandardizer tvShowStandardizer;
 
 
     @Before
     public void before() throws IOException {
         destinationFolder = temporaryFolder.newFolder();
         sourceFolder = temporaryFolder.newFolder();
-        standardizer = new Standardizer(Standardizer.TvShownPattern.S0XE0X);
+        tvShowStandardizer = new TvShowStandardizer(TvShowStandardizer.PatternEnum.S0XE0X.getPattern());
     }
 
     @After
@@ -40,7 +40,7 @@ public class MoverTest {
         File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi");
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder, standardizer).move(sourceFile);
+        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -51,7 +51,7 @@ public class MoverTest {
         File sourceFile = newFile(sourceFolder, "..machin S00E00 truc....avi");
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder, standardizer).move(sourceFile);
+        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -61,10 +61,10 @@ public class MoverTest {
     public void changeNameIfFileAlreadyExist() throws Exception {
         String filename = "machin.S00E00.truc.avi";
         File sourceFile = newFile(sourceFolder, filename);
-        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), filename).toString());
-        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString());
-        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString());
-        new Mover(destinationFolder, standardizer).move(sourceFile);
+        newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), filename).toString());
+        newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString());
+        newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString());
+        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).exists();

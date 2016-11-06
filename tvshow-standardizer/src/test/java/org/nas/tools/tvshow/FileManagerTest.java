@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.nas.tools.tvshow.TvShowManager;
+import org.nas.tools.standardizer.FileManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import static org.fest.assertions.Assertions.assertThat;
 
 
-public class TvShowManagerTest {
+public class FileManagerTest {
 
 
     private TemporaryFolder temporaryFolder;
@@ -37,7 +37,7 @@ public class TvShowManagerTest {
     public void canMove() throws Exception {
         newFile("test.S01E01.truc.mkv");
 
-        new TvShowManager(destinationDirectory).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
@@ -50,7 +50,7 @@ public class TvShowManagerTest {
         newFile("test.S01E01.truc.mkv");
         newFile("rien.a.voir.boby");
 
-        new TvShowManager(destinationDirectory).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
@@ -63,7 +63,7 @@ public class TvShowManagerTest {
         newFile("test.S01E01.truc.mkv");
         newFile("rien.a.voir.boby.mkv");
 
-        new TvShowManager(destinationDirectory).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
@@ -79,7 +79,7 @@ public class TvShowManagerTest {
         newFile("youpi.1x02.cestlafete.mkv");
         newFile("pouet.407.cestlafete.mkv");
 
-        new TvShowManager(destinationDirectory).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
 
 
         File[] listFiles = destinationDirectory.listFiles();
