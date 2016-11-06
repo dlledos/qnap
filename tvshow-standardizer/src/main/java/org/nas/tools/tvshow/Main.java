@@ -1,4 +1,4 @@
-package tvshow;
+package org.nas.tools.tvshow;
 import org.apache.commons.cli.*;
 
 import java.io.File;

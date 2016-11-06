@@ -1,10 +1,10 @@
-package tvshow;
+package org.nas.tools.tvshow;
 
-import javafx.collections.transformation.SortedList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.nas.tools.tvshow.TvShowManager;
 
 import java.io.File;
 import java.io.IOException;
