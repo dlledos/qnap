@@ -58,7 +58,7 @@
                             <finalName>tvshow-manager</finalName>
                             <archive>
                                 <manifest>
-                                    <mainClass>org.nas.tools.tvshow.Main</mainClass>
+                                    <mainClass>org.nas.tools.tvshow.TvShowStandardizer</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -69,6 +69,51 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>com.abercap</groupId>
+            <artifactId>mediainfo-java-api</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-bundle</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-xmp</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.mp4parser</groupId>
+            <artifactId>isoparser</artifactId>
+            <version>1.1.21</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.mjeanroy</groupId>
+            <artifactId>exiftool-lib</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.drewnoakes</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>2.9.1</version>
+        </dependency>
         <dependency>
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert</artifactId>

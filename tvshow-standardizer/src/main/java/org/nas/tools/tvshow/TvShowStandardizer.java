@@ -1,5 +1,6 @@
 package org.nas.tools.tvshow;
 
+import org.nas.tools.standardizer.Main;
 import org.nas.tools.standardizer.Standardizer;
 
 import java.io.File;
@@ -47,6 +48,11 @@ public class TvShowStandardizer extends Standardizer {
     public static final int EPISODE_POSITION = 3;
     public static final int SEASON_POSITION = 2;
     public static final int NAME_POSITION = 1;
+
+
+    public static void main(String[] args) throws Exception {
+        Main.standardize(args, new TvShowStandardizer());
+    }
 
     public TvShowStandardizer(Pattern pattern) {
         super(pattern);
