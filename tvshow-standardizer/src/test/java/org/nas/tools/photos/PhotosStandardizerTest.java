@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.nas.tools.tvshow.TvShowStandardizer;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -39,15 +40,14 @@ public class PhotosStandardizerTest {
 
     @Test
     public void nominal() throws Exception {
-        assertNewFilename("IMG.jpg", "2015-02-07_19-00-32.IMG1.jpg");
-        assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG1.jpg");
-        assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID1.mp4");
+        assertNewFilename("IMG.jpg", "2015-02-07_19-00-32.IMG.jpg");
+        assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG.jpg");
+        assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID.mp4");
     }
 
-    @Test
-    public void doublon() throws Exception {
-        assertNewFilename("IMG.jpg", "2015-02-07_19-00-32.IMG1.jpg");
-        assertNewFilename("Copy-Of-IMG.jpg", "2015-02-07_19-00-32.IMG2.jpg");
+    private void newFile(String filename) throws IOException {
+        File newFile = new File(sourceDirectory.getAbsolutePath(), filename);
+        newFile.createNewFile();
     }
 
     private void assertNewFilename(String actualFilename, String expectedFilename) throws ImageProcessingException, IOException, TikaException, SAXException {

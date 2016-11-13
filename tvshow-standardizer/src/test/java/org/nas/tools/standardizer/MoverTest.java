@@ -64,6 +64,7 @@ public class MoverTest {
         newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), filename).toString());
         newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString());
         newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString());
+
         new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();

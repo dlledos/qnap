@@ -17,6 +17,7 @@ import org.nas.tools.standardizer.Standardizer;
 import java.io.*;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -30,12 +31,19 @@ public class PhotosStandardizer extends Standardizer {
 
     @Override
     public List<Pattern> getPatterns() {
-        return null;
+        List<Pattern> patternsList = new ArrayList<>();
+        patternsList.add(Pattern.compile(".*" + DOT_SEPARATOR + "(mp4|jpg)", Pattern.CASE_INSENSITIVE));
+        return patternsList;
+    }
+
+    @Override
+    public String getNewDir(File file) {
+        return Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized";
     }
 
     @Override
     public String getNewFilename(File file) {
-        return getDate(file) + "." + getType(file) + getId(file) + "." + getExtension(file);
+        return getDate(file) + "." + getType(file) + "." + getExtension(file);
     }
 
     private String getDate(File file) {
@@ -44,12 +52,6 @@ public class PhotosStandardizer extends Standardizer {
         if (getType(file).equals("IMG"))
             return formatDate(getDateFromExif(file));
         return null;
-    }
-
-    private String getId(File file) {
-
-        
-        return "1";
     }
 
     private String getExtension(File file) {
@@ -100,13 +102,8 @@ public class PhotosStandardizer extends Standardizer {
         }
     }
 
+
     private String formatDate(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(date);
-    }
-
-
-    @Override
-    public String getNewDir(File file) {
-        return Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized";
     }
 }

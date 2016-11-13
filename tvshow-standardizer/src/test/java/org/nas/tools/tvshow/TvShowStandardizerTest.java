@@ -37,6 +37,14 @@ public class TvShowStandardizerTest {
     }
 
     @Test
+    public void ignoreCase() throws Exception {
+        File file = new File("machin.S01E01.truc.AVI");
+        TvShowStandardizer tvShowStandardizer = new TvShowStandardizer(TvShowStandardizer.PatternEnum.S0XE0X.getPattern());
+        assertThat(tvShowStandardizer.getNewFilename(file)).isEqualTo("machin.S01E01.truc.avi");
+        assertThat(tvShowStandardizer.getNewDir(file)).isEqualTo("machin");
+    }
+
+    @Test
     public void espaceDansFichier() throws Exception {
         File file = new File("machin S01E01 truc avi");
         TvShowStandardizer tvShowStandardizer = new TvShowStandardizer(TvShowStandardizer.PatternEnum.S0XE0X.getPattern());

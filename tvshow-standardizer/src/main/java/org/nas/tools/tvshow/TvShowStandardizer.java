@@ -24,7 +24,7 @@ public class TvShowStandardizer extends Standardizer {
         private Pattern pattern;
 
         PatternEnum(String pattern) {
-            this.pattern = Pattern.compile(pattern);
+            this.pattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
         }
 
         public Pattern getPattern() {
@@ -86,7 +86,7 @@ public class TvShowStandardizer extends Standardizer {
     }
 
     private String findExtension(String file) {
-        return find(file, EXTENSION_POSITION);
+        return find(file, EXTENSION_POSITION).toLowerCase();
     }
 
     private String findTitle(String file) {

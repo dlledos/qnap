@@ -1,10 +1,11 @@
-package org.nas.tools.tvshow;
+package org.nas.tools.standardizer;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.nas.tools.standardizer.FileManager;
+import org.nas.tools.tvshow.TvShowStandardizer;
 
 import java.io.File;
 import java.io.IOException;
