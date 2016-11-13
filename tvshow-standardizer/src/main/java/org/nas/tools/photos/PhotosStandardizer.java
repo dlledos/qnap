@@ -15,16 +15,17 @@ import org.nas.tools.standardizer.Main;
 import org.nas.tools.standardizer.Standardizer;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
-public class PhotosManager extends Standardizer {
+public class PhotosStandardizer extends Standardizer {
 
     public static void main(String[] args) throws Exception {
-        Main.standardize(args, new PhotosManager());
+        Main.standardize(args, new PhotosStandardizer());
     }
 
     @Override
@@ -46,6 +47,8 @@ public class PhotosManager extends Standardizer {
     }
 
     private String getId(File file) {
+
+        
         return "1";
     }
 
@@ -104,6 +107,6 @@ public class PhotosManager extends Standardizer {
 
     @Override
     public String getNewDir(File file) {
-        return null;
+        return Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized";
     }
 }

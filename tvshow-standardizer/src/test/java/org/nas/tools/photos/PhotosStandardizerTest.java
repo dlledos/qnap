@@ -8,26 +8,28 @@ import com.drew.metadata.Tag;
 import org.apache.tika.exception.TikaException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class PhotosManagerTest {
+public class PhotosStandardizerTest {
     private File sourceDirectory;
     private TemporaryFolder temporaryFolder;
-    private PhotosManager photosManager;
+    private PhotosStandardizer photosStandardizer;
 
     @Before
     public void setUp() throws Exception {
         temporaryFolder = new TemporaryFolder();
         temporaryFolder.create();
         sourceDirectory = temporaryFolder.newFolder();
-        photosManager = new PhotosManager();
+        photosStandardizer = new PhotosStandardizer();
     }
 
     @After
@@ -38,15 +40,22 @@ public class PhotosManagerTest {
     @Test
     public void nominal() throws Exception {
         assertNewFilename("IMG.jpg", "2015-02-07_19-00-32.IMG1.jpg");
-        assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG1.jpg");//[Exif IFD0] - Date/Time = 2014:12:14 12:21:14
+        assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG1.jpg");
         assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID1.mp4");
+    }
+
+    @Test
+    public void doublon() throws Exception {
+        assertNewFilename("IMG.jpg", "2015-02-07_19-00-32.IMG1.jpg");
+        assertNewFilename("Copy-Of-IMG.jpg", "2015-02-07_19-00-32.IMG2.jpg");
     }
 
     private void assertNewFilename(String actualFilename, String expectedFilename) throws ImageProcessingException, IOException, TikaException, SAXException {
         File file = new File(getClass().getClassLoader().getResource(actualFilename).getFile());
         assertThat(file).exists();
         //printMetatData(file);
-        assertThat(photosManager.getNewFilename(file)).isEqualTo(expectedFilename);
+        assertThat(photosStandardizer.getNewFilename(file)).isEqualTo(expectedFilename);
+        assertThat(photosStandardizer.getNewDir(file)).isEqualTo(Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized");
     }
 
     private void printMetatData(File file) throws ImageProcessingException, IOException {
