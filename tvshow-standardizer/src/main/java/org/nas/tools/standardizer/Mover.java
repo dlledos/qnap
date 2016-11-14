@@ -11,10 +11,12 @@ import java.util.regex.Pattern;
 public class Mover {
     private final File destinationFolder;
     private Standardizer standardizer;
+    private boolean test;
 
-    public Mover(File destinationFolder, Standardizer standardizer) {
+    public Mover(File destinationFolder, Standardizer standardizer, boolean test) {
         this.destinationFolder = destinationFolder;
         this.standardizer = standardizer;
+        this.test = test;
     }
 
     public void move(File source) throws IOException {
@@ -22,7 +24,9 @@ public class Mover {
         new File(destinationFolder.getPath(), newDir).mkdir();
         File target = chooseTarget(source, newDir);
         System.out.println("  moving " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
-        Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (!test) {
+            Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     private File chooseTarget(File source, String newDir) {

@@ -63,6 +63,21 @@
                             </archive>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>ToolTwo</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>photos-manager</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>org.nas.tools.photos.PhotosStandardizer</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

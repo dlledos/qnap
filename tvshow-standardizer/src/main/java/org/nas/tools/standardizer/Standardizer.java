@@ -23,8 +23,8 @@ public abstract class Standardizer {
         return sourceDirectory.listFiles((dir, name) -> name.matches(pattern.pattern()));
     }
 
-    public int move(File sourceDirectory, File destinationDirectory) throws IOException {
-        Mover mover = new Mover(destinationDirectory, this);
+    public int move(File sourceDirectory, File destinationDirectory, boolean test) throws IOException {
+        Mover mover = new Mover(destinationDirectory, this, test);
         int movedFileCount = 0;
         for (File file : findMatchingFile(sourceDirectory)) {
             mover.move(file);
@@ -33,11 +33,11 @@ public abstract class Standardizer {
         return movedFileCount;
     }
 
-    public int moveLoop(File sourceDirectory, File destinationDirectory) throws IOException {
+    public int moveLoop(File sourceDirectory, File destinationDirectory, boolean test) throws IOException {
         int movedFileCount = 0;
         for (Pattern pattern : getPatterns()) {
             this.pattern = pattern;
-            movedFileCount += move(sourceDirectory, destinationDirectory);
+            movedFileCount += move(sourceDirectory, destinationDirectory, test);
         }
         return movedFileCount;
     }

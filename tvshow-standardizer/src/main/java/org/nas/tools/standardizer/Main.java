@@ -19,11 +19,13 @@ public class Main {
         Options options = new Options();
         addOption(options, "s", "sourceDirectory", "Source directory path");
         addOption(options, "d", "destinationDirectory", "Destination directory path");
+        Option option = new Option("t", "test", false, "Print only, no move");
+        option.setRequired(false);
+        options.addOption(option);
         CommandLine cmd = parse(args, options);
         String sourceDirectory = cmd.getOptionValue("sourceDirectory");
         String destinationDirectory = cmd.getOptionValue("destinationDirectory");
-
-        FileManager fileManager = new FileManager(destinationDirectory, standardizer);
+        FileManager fileManager = new FileManager(destinationDirectory, standardizer, cmd.hasOption("test"));
         try {
             fileManager.move(sourceDirectory);
         }
@@ -52,8 +54,8 @@ public class Main {
     }
 
     private static void addOption(Options options, String opt, String longOpt, String description) {
-        Option srcDir = new Option(opt, longOpt, true, description);
-        srcDir.setRequired(true);
-        options.addOption(srcDir);
+        Option option = new Option(opt, longOpt, true, description);
+        option.setRequired(true);
+        options.addOption(option);
     }
 }

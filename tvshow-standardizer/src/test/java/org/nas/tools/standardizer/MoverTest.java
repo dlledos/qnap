@@ -1,6 +1,5 @@
 package org.nas.tools.standardizer;
 
-import com.google.common.io.Files;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -10,7 +9,6 @@ import org.nas.tools.tvshow.TvShowStandardizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Paths;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -42,7 +40,7 @@ public class MoverTest {
         File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi", 0);
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
+        new Mover(destinationFolder, tvShowStandardizer, false).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -53,7 +51,7 @@ public class MoverTest {
         File sourceFile = newFile(sourceFolder, "..machin S00E00 truc....avi", 0);
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
+        new Mover(destinationFolder, tvShowStandardizer, false).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -67,7 +65,7 @@ public class MoverTest {
         newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString(), 0);
         newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString(), 0);
 
-        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
+        new Mover(destinationFolder, tvShowStandardizer, false).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).exists();
@@ -76,16 +74,27 @@ public class MoverTest {
     }
 
     @Test
-    public void changeNameIfFileAlreadyExistAndSizeDifferent() throws Exception {
-        File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi", 7);
-        newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.avi").toString(), 5);
+    public void moveDoNotMoveIfTestIsTrue() throws Exception {
+        String filename = "machin.S00E00.truc.avi";
+        File sourceFile = newFile(sourceFolder, filename, 0);
 
-        new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
+        new Mover(destinationFolder, tvShowStandardizer, true).move(sourceFile);
 
-        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
-        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size-7.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).doesNotExist();
     }
 
+    /*
+        @Test
+        public void changeNameIfFileAlreadyExistAndSizeDifferent() throws Exception {
+            File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi", 7);
+            newFile(destinationFolder, Paths.get(tvShowStandardizer.getNewDir(sourceFile), "machin.S00E00.truc.avi").toString(), 5);
+
+            new Mover(destinationFolder, tvShowStandardizer).move(sourceFile);
+
+            assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
+            assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size-7.avi").toFile()).exists();
+        }
+    */
     private File newFile(File folder, String filename, int size) throws IOException {
         File sourceFile = Paths.get(folder.getPath(), filename).toFile();
         sourceFile.mkdirs();

@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.nas.tools.standardizer.FileManager;
 import org.nas.tools.tvshow.TvShowStandardizer;
 
 import java.io.File;
@@ -38,7 +37,7 @@ public class FileManagerTest {
     public void canMove() throws Exception {
         newFile("test.S01E01.truc.mkv");
 
-        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer(), false).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
@@ -51,7 +50,7 @@ public class FileManagerTest {
         newFile("test.S01E01.truc.mkv");
         newFile("rien.a.voir.boby");
 
-        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer(), false).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
@@ -64,7 +63,7 @@ public class FileManagerTest {
         newFile("test.S01E01.truc.mkv");
         newFile("rien.a.voir.boby.mkv");
 
-        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer(), false).move(sourceDirectory);
 
         assertThat(destinationDirectory.listFiles()).hasSize(1);
         assertThat(destinationDirectory.listFiles()[0].getName()).isEqualTo("test");
@@ -80,7 +79,7 @@ public class FileManagerTest {
         newFile("youpi.1x02.cestlafete.mkv");
         newFile("pouet.407.cestlafete.mkv");
 
-        new FileManager(destinationDirectory, new TvShowStandardizer()).move(sourceDirectory);
+        new FileManager(destinationDirectory, new TvShowStandardizer(), false).move(sourceDirectory);
 
 
         File[] listFiles = destinationDirectory.listFiles();
