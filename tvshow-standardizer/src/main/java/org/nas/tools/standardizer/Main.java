@@ -19,13 +19,13 @@ public class Main {
         Options options = new Options();
         addOption(options, "s", "sourceDirectory", "Source directory path");
         addOption(options, "d", "destinationDirectory", "Destination directory path");
-        Option option = new Option("t", "test", false, "Print only, no move");
+        Option option = new Option("t", "dryRun", false, "Print only, no move");
         option.setRequired(false);
         options.addOption(option);
         CommandLine cmd = parse(args, options);
         String sourceDirectory = cmd.getOptionValue("sourceDirectory");
         String destinationDirectory = cmd.getOptionValue("destinationDirectory");
-        FileManager fileManager = new FileManager(destinationDirectory, standardizer, cmd.hasOption("test"));
+        FileManager fileManager = new FileManager(destinationDirectory, standardizer, cmd.hasOption("dryRun"));
         try {
             fileManager.move(sourceDirectory);
         }
