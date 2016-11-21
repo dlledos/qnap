@@ -6,7 +6,7 @@
     <groupId>org.nas.tools</groupId>
     <artifactId>nas-toolbox</artifactId>
     <version>1.0</version>
-
+    <packaging>pom</packaging>
     <modules>
         <module>standardizer-lib</module>
         <module>tvshow-manager</module>

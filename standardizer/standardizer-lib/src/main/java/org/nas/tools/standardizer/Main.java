@@ -1,6 +1,5 @@
 package org.nas.tools.standardizer;
 import org.apache.commons.cli.*;
-import org.nas.tools.tvshow.TvShowStandardizer;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -9,10 +8,6 @@ import java.nio.file.Paths;
 public class Main {
 
     private static String binName;
-
-    public static void main(String[] args) throws Exception {
-        standardize(args, new TvShowStandardizer());
-    }
 
     public static void standardize(String[] args, Standardizer standardizer) throws URISyntaxException {
         binName = getName().toString();
