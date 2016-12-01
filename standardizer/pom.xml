@@ -13,10 +13,6 @@
         <module>photos-manager</module>
     </modules>
 
-    <scm>
-        <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
     <distributionManagement>
         <repository>
             <id>ssh-repository</id>
