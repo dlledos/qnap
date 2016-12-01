@@ -13,11 +13,11 @@
 
     <groupId>org.nas.tools.tvshow-manager</groupId>
     <artifactId>tvshow-manager</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <scm>
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>tvshow-manager-1.0</tag>
     </scm>
     <build>
         <extensions>
