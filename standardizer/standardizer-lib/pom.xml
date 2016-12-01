@@ -13,7 +13,7 @@
 
     <groupId>org.nas.tools.standardizer-lib</groupId>
     <artifactId>standardizer-lib</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <build>
@@ -107,4 +107,8 @@
         </dependency>
     </dependencies>
 
+
+  <scm>
+    <tag>standardizer-lib-1.0</tag>
+  </scm>
 </project>
