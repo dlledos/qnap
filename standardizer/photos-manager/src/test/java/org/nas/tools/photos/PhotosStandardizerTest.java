@@ -44,6 +44,7 @@ public class PhotosStandardizerTest {
         assertNewFilename("IMG1.JPG", "2015-02-07_19-00-32.IMG.jpg");
         assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG.jpg");
         assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID.mp4");
+        assertNewFilename("VID.MOV", "2014-03-17_13-00-17.VID.mov");
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
+import com.drew.metadata.file.FileMetadataDirectory;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 import org.apache.tika.parser.ParseContext;
@@ -65,7 +66,7 @@ public class PhotosStandardizer extends Standardizer {
     }
 
     private String getType(File file) {
-        if (getExtension(file).toLowerCase().equals("mp4")) {
+        if (getExtension(file).toLowerCase().matches("mp4|mov")) {
             return "VID";
         }
         if (getExtension(file).toLowerCase().equals("jpg")) {

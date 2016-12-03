@@ -68,14 +68,13 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
     <dependencies>
         <dependency>
             <groupId>org.nas.tools.standardizer-lib</groupId>
             <artifactId>standardizer-lib</artifactId>
-            <version>1.4</version>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>com.abercap</groupId>
