@@ -25,7 +25,8 @@ public class Main {
             fileManager.move(sourceDirectory);
         }
         catch (Exception e){
-            System.out.println("Can't move file " + e);
+            System.out.println("Can't move file");
+            e.printStackTrace();
             new HelpFormatter().printHelp(binName, options);
             System.exit(1);
         }

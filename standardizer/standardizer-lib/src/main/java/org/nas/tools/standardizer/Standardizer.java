@@ -26,10 +26,16 @@ public abstract class Standardizer {
     public int move(File sourceDirectory, File destinationDirectory, boolean test) throws IOException {
         Mover mover = new Mover(destinationDirectory, this, test);
         int movedFileCount = 0;
-        for (File file : findMatchingFile(sourceDirectory)) {
-            mover.move(file);
-            movedFileCount++;
-        }
+        File[] matchingFile = findMatchingFile(sourceDirectory);
+        if (matchingFile != null)
+            for (File file : matchingFile) {
+                try {
+                    mover.move(file);
+                    movedFileCount++;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         return movedFileCount;
     }
 
@@ -37,7 +43,11 @@ public abstract class Standardizer {
         int movedFileCount = 0;
         for (Pattern pattern : getPatterns()) {
             this.pattern = pattern;
-            movedFileCount += move(sourceDirectory, destinationDirectory, test);
+            try {
+                movedFileCount += move(sourceDirectory, destinationDirectory, test);
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
         }
         return movedFileCount;
     }
