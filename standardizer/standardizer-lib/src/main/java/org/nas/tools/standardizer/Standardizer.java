@@ -33,7 +33,8 @@ public abstract class Standardizer {
                     mover.move(file);
                     movedFileCount++;
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    System.out.printf("Fail to move file : " + file);
+                    e.printStackTrace();
                 }
             }
         return movedFileCount;
@@ -46,7 +47,7 @@ public abstract class Standardizer {
             try {
                 movedFileCount += move(sourceDirectory, destinationDirectory, test);
             } catch (RuntimeException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         return movedFileCount;
