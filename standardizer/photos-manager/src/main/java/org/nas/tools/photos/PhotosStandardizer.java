@@ -27,6 +27,10 @@ import java.util.regex.Pattern;
 
 public class PhotosStandardizer extends Standardizer {
 
+    public static final Pattern VIDEO_AND_IMAGE_PATTERN = Pattern.compile(".*" + DOT_SEPARATOR + "(mp4|jpg|jpeg)", Pattern.CASE_INSENSITIVE);
+    PhotosStandardizer(){
+        pattern = VIDEO_AND_IMAGE_PATTERN;
+    }
     public static void main(String[] args) throws Exception {
         Main.standardize(args, new PhotosStandardizer());
     }
@@ -34,7 +38,7 @@ public class PhotosStandardizer extends Standardizer {
     @Override
     public List<Pattern> getPatterns() {
         List<Pattern> patternsList = new ArrayList<>();
-        patternsList.add(Pattern.compile(".*" + DOT_SEPARATOR + "(mp4|jpg)", Pattern.CASE_INSENSITIVE));
+        patternsList.add(VIDEO_AND_IMAGE_PATTERN);
         return patternsList;
     }
 

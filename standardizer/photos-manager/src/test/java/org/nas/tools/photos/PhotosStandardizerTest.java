@@ -46,6 +46,18 @@ public class PhotosStandardizerTest {
         assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID.mp4");
     }
 
+    @Test
+    public void pattern() throws Exception {
+        String filename = "bla bla.JPG";
+        newFile(filename);
+        assertThat(photosStandardizer.getPatterns().get(0).matcher(filename).matches()).isTrue();
+        assertThat(photosStandardizer.findMatchingFile(sourceDirectory)).hasSize(1);
+    }
+    private File newFile(String filename) throws IOException {
+        File newFile = new File(sourceDirectory.getAbsolutePath(), filename);
+        newFile.createNewFile();
+        return newFile;
+    }
     private void assertNewFilename(String actualFilename, String expectedFilename) throws ImageProcessingException, IOException, TikaException, SAXException {
         File file = new File(getClass().getClassLoader().getResource(actualFilename).getFile());
         assertThat(file).exists();

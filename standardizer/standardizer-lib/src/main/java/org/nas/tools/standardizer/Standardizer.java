@@ -20,7 +20,7 @@ public abstract class Standardizer {
     }
 
     public File[] findMatchingFile(File sourceDirectory) {
-        return sourceDirectory.listFiles((dir, name) -> name.matches(pattern.pattern()));
+        return sourceDirectory.listFiles((dir, name) -> name.toLowerCase().matches(pattern.pattern()));
     }
 
     public int move(File sourceDirectory, File destinationDirectory, boolean test) throws IOException {
