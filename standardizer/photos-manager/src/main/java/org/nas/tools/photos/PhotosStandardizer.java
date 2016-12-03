@@ -14,7 +14,9 @@ import org.apache.tika.sax.WriteOutContentHandler;
 import org.nas.tools.standardizer.Main;
 import org.nas.tools.standardizer.Standardizer;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class PhotosStandardizer extends Standardizer {
             tika.getParser().parse(stream, new BodyContentHandler(handler), metadata, e);
             return metadata.getDate(org.apache.tika.metadata.Metadata.DATE);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
