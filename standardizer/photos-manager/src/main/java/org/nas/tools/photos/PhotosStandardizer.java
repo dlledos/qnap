@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class PhotosStandardizer extends Standardizer {
 
-    public static final Pattern VIDEO_AND_IMAGE_PATTERN = Pattern.compile(".*" + DOT_SEPARATOR + "(mp4|jpg|jpeg)", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VIDEO_AND_IMAGE_PATTERN = Pattern.compile(".*" + DOT_SEPARATOR + "(mp4|mov|jpg|jpeg)", Pattern.CASE_INSENSITIVE);
     PhotosStandardizer(){
         pattern = VIDEO_AND_IMAGE_PATTERN;
     }
