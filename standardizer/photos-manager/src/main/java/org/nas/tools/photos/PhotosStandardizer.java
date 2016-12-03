@@ -57,14 +57,14 @@ public class PhotosStandardizer extends Standardizer {
     }
 
     private String getExtension(File file) {
-        return FilenameUtils.getExtension(file.getName());
+        return FilenameUtils.getExtension(file.getName()).toLowerCase();
     }
 
     private String getType(File file) {
-        if (getExtension(file).equals("mp4")) {
+        if (getExtension(file).toLowerCase().equals("mp4")) {
             return "VID";
         }
-        if (getExtension(file).equals("jpg")) {
+        if (getExtension(file).toLowerCase().equals("jpg")) {
             return "IMG";
         }
         return null;

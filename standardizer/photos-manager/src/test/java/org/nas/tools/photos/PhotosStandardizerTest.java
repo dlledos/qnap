@@ -41,6 +41,7 @@ public class PhotosStandardizerTest {
     @Test
     public void nominal() throws Exception {
         assertNewFilename("IMG.jpg", "2015-02-07_19-00-32.IMG.jpg");
+        assertNewFilename("IMG1.JPG", "2015-02-07_19-00-32.IMG.jpg");
         assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG.jpg");
         assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID.mp4");
     }
