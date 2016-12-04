@@ -8,17 +8,17 @@ import java.lang.reflect.InvocationTargetException;
 public class FileManager {
 
     private final Standardizer standardizer;
-    private boolean test;
+    private boolean dryRun;
     private File destinationDirectory;
 
-    public FileManager(File destinationDirectory, Standardizer standardizer, boolean test) {
+    public FileManager(File destinationDirectory, Standardizer standardizer, boolean dryRun) {
         this.destinationDirectory = destinationDirectory;
         this.standardizer = standardizer;
-        this.test = test;
+        this.dryRun = dryRun;
     }
 
-    public FileManager(String destinationDirectory, Standardizer standardizer, boolean test) {
-        this(new File(destinationDirectory), standardizer, test);
+    public FileManager(String destinationDirectory, Standardizer standardizer, boolean dryRun) {
+        this(new File(destinationDirectory), standardizer, dryRun);
     }
 
     public void move(String sourceDirectory) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IOException, IllegalAccessException {
@@ -27,7 +27,7 @@ public class FileManager {
 
     public void move(File sourceDirectory) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IOException, IllegalAccessException {
         System.out.println("Starting scan of " + sourceDirectory.getAbsolutePath());
-        int movedFileCount = standardizer.moveLoop(sourceDirectory, destinationDirectory, test);
+        int movedFileCount = standardizer.moveLoop(sourceDirectory, destinationDirectory, dryRun);
         System.out.println("Moved " + movedFileCount + " file from " + sourceDirectory.getAbsolutePath() + " to "  + destinationDirectory.getAbsolutePath());
     }
 

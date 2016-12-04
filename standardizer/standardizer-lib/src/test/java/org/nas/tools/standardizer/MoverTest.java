@@ -63,7 +63,7 @@ public class MoverTest {
         File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi", 0);
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder, standardizer, false).move(sourceFile);
+        new Mover(sourceFolder, destinationFolder, standardizer, false).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -74,7 +74,7 @@ public class MoverTest {
         File sourceFile = newFile(sourceFolder, "..machin S00E00 truc....avi", 0);
         assertThat(sourceFile).exists();
 
-        new Mover(destinationFolder, standardizer, false).move(sourceFile);
+        new Mover(sourceFolder, destinationFolder, standardizer, false).move(sourceFile);
 
         File expectedFile = Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile();
         assertThat(expectedFile).exists();
@@ -88,7 +88,7 @@ public class MoverTest {
         newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString(), 0);
         newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString(), 0);
 
-        new Mover(destinationFolder, standardizer, false).move(sourceFile);
+        new Mover(sourceFolder, destinationFolder, standardizer, false).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).exists();
@@ -101,7 +101,7 @@ public class MoverTest {
         String filename = "machin.S00E00.truc.avi";
         File sourceFile = newFile(sourceFolder, filename, 0);
 
-        new Mover(destinationFolder, standardizer, true).move(sourceFile);
+        new Mover(sourceFolder, destinationFolder, standardizer, true).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).doesNotExist();
     }

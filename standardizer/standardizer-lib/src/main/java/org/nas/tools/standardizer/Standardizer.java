@@ -1,7 +1,11 @@
 package org.nas.tools.standardizer;
 
+import com.beust.jcommander.internal.Lists;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,14 +23,20 @@ public abstract class Standardizer {
 
     }
 
-    public File[] findMatchingFile(File sourceDirectory) {
-        return sourceDirectory.listFiles((dir, name) -> name.toLowerCase().matches(pattern.pattern()));
+    public List<File> findMatchingFile(File sourceDirectory) {
+        //return FileUtils.listFiles(sourceDirectory, new NameFileFilter(), TrueFileFilter.INSTANCE);
+        List<File> files = Lists.newArrayList(sourceDirectory.listFiles((dir, name) -> name.toLowerCase().matches(pattern.pattern())));
+        File[] directory = sourceDirectory.listFiles((pathname) -> pathname.isDirectory());
+        for (File file : directory) {
+            files.addAll(findMatchingFile(file));
+        }
+        return files;
     }
 
-    public int move(File sourceDirectory, File destinationDirectory, boolean test) throws IOException {
-        Mover mover = new Mover(destinationDirectory, this, test);
+    public int move(File sourceDirectory, File destinationDirectory, boolean dryRun) throws IOException {
+        Mover mover = new Mover(sourceDirectory, destinationDirectory, this, dryRun);
         int movedFileCount = 0;
-        File[] matchingFile = findMatchingFile(sourceDirectory);
+        List<File> matchingFile = findMatchingFile(sourceDirectory);
         if (matchingFile != null)
             for (File file : matchingFile) {
                 try {
@@ -40,12 +50,12 @@ public abstract class Standardizer {
         return movedFileCount;
     }
 
-    public int moveLoop(File sourceDirectory, File destinationDirectory, boolean test) throws IOException {
+    public int moveLoop(File sourceDirectory, File destinationDirectory, boolean dryRun) throws IOException {
         int movedFileCount = 0;
         for (Pattern pattern : getPatterns()) {
             this.pattern = pattern;
             try {
-                movedFileCount += move(sourceDirectory, destinationDirectory, test);
+                movedFileCount += move(sourceDirectory, destinationDirectory, dryRun);
             } catch (Exception e) {
                 System.out.println("Fail to use pattern : " + pattern);
                 e.printStackTrace();
