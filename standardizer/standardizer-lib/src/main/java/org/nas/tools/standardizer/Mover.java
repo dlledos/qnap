@@ -22,7 +22,7 @@ public class Mover {
     }
 
     public void move(File source) throws IOException {
-        String newDir = Paths.get(getParentDir(source), standardizer.getNewDir(source)).getParent().toString();
+        String newDir = Paths.get(getParentDir(source), standardizer.getNewDir(source)).toString();
         File file = new File(destinationFolder.getPath(), newDir);
         file.mkdir();
         File target = chooseTarget(source, newDir);

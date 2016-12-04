@@ -97,7 +97,7 @@ public class MoverTest {
     }
 
     @Test
-    public void moveDoNotMoveIfTestIsTrue() throws Exception {
+    public void moveDoNotMoveIfDryRunIsTrue() throws Exception {
         String filename = "machin.S00E00.truc.avi";
         File sourceFile = newFile(sourceFolder, filename, 0);
 
