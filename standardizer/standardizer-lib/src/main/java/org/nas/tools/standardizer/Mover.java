@@ -3,6 +3,7 @@ package org.nas.tools.standardizer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
@@ -24,7 +25,7 @@ public class Mover {
     public void move(File source) throws IOException {
         String newDir = Paths.get(getParentDir(source), standardizer.getNewDir(source)).toString();
         File file = new File(destinationFolder.getPath(), newDir);
-        file.mkdir();
+        file.mkdirs();
         File target = chooseTarget(source, newDir);
         System.out.println("  moving " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
         if (!dryRun) {

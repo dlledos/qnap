@@ -30,14 +30,14 @@ public class MainTest {
     @Test
     public void standardize() throws Exception {
         File rootFile = newFile("test1.jpg");
-        File newFile = newFile("dir", "test1.jpg");
-        File newFile2 = newFile(Paths.get("dir", "dir2").toString(), "test1.jpg");
+        File fileWithOneSubDir = newFile("subdir", "test1.jpg");
+        File fileWithTwoSubDir = newFile(Paths.get("subdir1", "subdir2").toString(), "test1.jpg");
 
         Main.standardize(getArgs(), getStandardizer());
 
         assertThat(Paths.get(destinationDirectory.getAbsolutePath(), "new." + rootFile.getName()).toFile()).exists();
-        assertThat(Paths.get(destinationDirectory.getAbsolutePath(), "dir", "new." + newFile.getName()).toFile()).exists();
-        assertThat(Paths.get(destinationDirectory.getAbsolutePath(), "dir", "dir2",  "new." + newFile.getName()).toFile()).exists();
+        assertThat(Paths.get(destinationDirectory.getAbsolutePath(), "subdir", "new." + fileWithOneSubDir.getName()).toFile()).exists();
+        assertThat(Paths.get(destinationDirectory.getAbsolutePath(), "subdir1", "subdir2",  "new." + fileWithTwoSubDir.getName()).toFile()).exists();
     }
 
     private File newFile(String filename) throws IOException {
