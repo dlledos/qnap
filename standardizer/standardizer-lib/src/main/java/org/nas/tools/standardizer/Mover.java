@@ -42,10 +42,10 @@ public class Mover {
     }
 
     private File chooseTarget(File source, String newDir) {
-        return chooseTarget(newDir, standardizer.getNewFilename(source));
+        return chooseTarget(newDir, standardizer.getNewFilename(source), source);
     }
 
-    private File chooseTarget(String newDir, String newFilename) {
+    private File chooseTarget(String newDir, String newFilename, File source) {
         File file = Paths.get(destinationFolder.getPath(), newDir, newFilename).toFile();
         if (file.exists()) {
             Pattern pattern = Pattern.compile("(.*)copy([0-9]+)\\..*");
@@ -59,7 +59,7 @@ public class Mover {
                 filenameBegin = newFilename.substring(0, newFilename.lastIndexOf(".")) + ".";
             }
             String newFilenameCopy = filenameBegin + "copy" + String.valueOf(number) + newFilename.substring(newFilename.lastIndexOf("."));
-            return chooseTarget(newDir, newFilenameCopy);
+            return chooseTarget(newDir, newFilenameCopy, source);
         }
         return file;
     }

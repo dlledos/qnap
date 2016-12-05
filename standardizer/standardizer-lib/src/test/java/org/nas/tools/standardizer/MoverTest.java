@@ -1,5 +1,6 @@
 package org.nas.tools.standardizer;
 
+import com.google.common.io.Files;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -8,6 +9,8 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,19 +84,19 @@ public class MoverTest {
     }
 
     @Test
-    public void changeNameIfFileAlreadyExistAnsSizeEquals() throws Exception {
+    public void changeNameIfFileAlreadyExistAnsSizeDifferent() throws Exception {
         String filename = "machin.S00E00.truc.avi";
         File sourceFile = newFile(sourceFolder, filename, 0);
-        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), filename).toString(), 0);
-        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy1.avi").toString(), 0);
-        newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.copy2.avi").toString(), 0);
+        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), filename, 0);
+        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), "machin.S00E00.truc.size1.avi", 1);
+        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), "machin.S00E00.truc.size2.avi", 2);
 
         new Mover(sourceFolder, destinationFolder, standardizer, false).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).exists();
-        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy2.avi").toFile()).exists();
-        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy3.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size1.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size2.avi").toFile()).exists();
     }
 
     @Test
@@ -119,11 +122,12 @@ public class MoverTest {
         }
     */
     private File newFile(File folder, String filename, int size) throws IOException {
+        folder.mkdirs();
         File sourceFile = Paths.get(folder.getPath(), filename).toFile();
-        sourceFile.mkdirs();
         sourceFile.createNewFile();
-        //System.out.println(sourceFile.setWritable(true));
-        //Files.write("123", sourceFile, Charset.defaultCharset());
+        StringBuilder stringBuilder = new StringBuilder(size);
+        stringBuilder.trimToSize();
+        Files.write(stringBuilder.toString(), sourceFile, Charset.defaultCharset());
         assertThat(sourceFile).exists();
         return sourceFile;
     }
