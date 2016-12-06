@@ -13,11 +13,11 @@
 
     <groupId>org.nas.tools.standardizer-lib</groupId>
     <artifactId>standardizer-lib</artifactId>
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
     <packaging>jar</packaging>
     <scm>
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
-        <tag>standardizer-lib-1.7</tag>
+        <tag>HEAD</tag>
     </scm>
     <build>
         <extensions>
