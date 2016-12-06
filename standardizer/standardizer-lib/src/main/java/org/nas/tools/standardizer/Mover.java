@@ -27,10 +27,14 @@ public class Mover {
         File file = new File(destinationFolder.getPath(), newDir);
         file.mkdirs();
         File target = chooseTarget(source, newDir);
-        System.out.println("  moving " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
-        if (!dryRun) {
-            Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (!target.exists()) {
+            System.out.println("  moving " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
+            if (!dryRun) {
+                Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
         }
+        else
+            System.out.println("  same file " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
     }
 
     private String getParentDir(File source) {
@@ -47,7 +51,7 @@ public class Mover {
 
     private File chooseTarget(String newDir, String newFilename, File source) {
         File file = Paths.get(destinationFolder.getPath(), newDir, newFilename).toFile();
-        if (file.exists()) {
+        if (file.exists() && file.length() != source.length()) {
             Pattern pattern = Pattern.compile("(.*)copy([0-9]+)\\..*");
             Matcher matcher = pattern.matcher(file.getName());
             int number = 1;

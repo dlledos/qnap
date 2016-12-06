@@ -84,20 +84,29 @@ public class MoverTest {
     }
 
     @Test
-    public void changeNameIfFileAlreadyExistAnsSizeDifferent() throws Exception {
+    public void doNotCopyFileIfFileAlreadyExistAnsSizeEquals() throws Exception {
         String filename = "machin.S00E00.truc.avi";
-        File sourceFile = newFile(sourceFolder, filename, 0);
-        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), filename, 0);
-        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), "machin.S00E00.truc.size1.avi", 1);
-        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), "machin.S00E00.truc.size2.avi", 2);
+        File sourceFile = newFile(sourceFolder, filename, 2);
+        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), filename, 2);
+
+        new Mover(sourceFolder, destinationFolder, standardizer, false).move(sourceFile);
+
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
+        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).doesNotExist();
+    }
+
+    @Test
+    public void changeNameIfFileAlreadyExistAndSizeDifferent() throws Exception {
+        String filename = "machin.S00E00.truc.avi";
+        File sourceFile = newFile(sourceFolder, filename, 3);
+        newFile(Paths.get(destinationFolder.getAbsolutePath(), standardizer.getNewDir(sourceFile)).toFile(), filename, 5);
 
         new Mover(sourceFolder, destinationFolder, standardizer, false).move(sourceFile);
 
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.copy1.avi").toFile()).exists();
-        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size1.avi").toFile()).exists();
-        assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size2.avi").toFile()).exists();
     }
+
 
     @Test
     public void moveDoNotMoveIfDryRunIsTrue() throws Exception {
@@ -109,26 +118,16 @@ public class MoverTest {
         assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).doesNotExist();
     }
 
-    /*
-        @Test
-        public void changeNameIfFileAlreadyExistAndSizeDifferent() throws Exception {
-            File sourceFile = newFile(sourceFolder, "machin.S00E00.truc.avi", 7);
-            newFile(destinationFolder, Paths.get(standardizer.getNewDir(sourceFile), "machin.S00E00.truc.avi").toString(), 5);
-
-            new Mover(destinationFolder, standardizer).move(sourceFile);
-
-            assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.avi").toFile()).exists();
-            assertThat(Paths.get(destinationFolder.getPath(), "machin", "machin.S00E00.truc.size-7.avi").toFile()).exists();
-        }
-    */
     private File newFile(File folder, String filename, int size) throws IOException {
         folder.mkdirs();
         File sourceFile = Paths.get(folder.getPath(), filename).toFile();
         sourceFile.createNewFile();
-        StringBuilder stringBuilder = new StringBuilder(size);
-        stringBuilder.trimToSize();
-        Files.write(stringBuilder.toString(), sourceFile, Charset.defaultCharset());
+        String toWrite="";
+        for (int i = 0; i < size; i++)
+            toWrite += String.valueOf(i);
+        Files.write(toWrite, sourceFile, Charset.defaultCharset());
         assertThat(sourceFile).exists();
+        assertThat(sourceFile.length()).isEqualTo(size);
         return sourceFile;
     }
 
