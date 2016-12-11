@@ -45,7 +45,7 @@ public class PhotosStandardizer extends Standardizer {
 
     @Override
     public String getNewDir(File file) {
-        return Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized";
+        return ".";
     }
 
     @Override

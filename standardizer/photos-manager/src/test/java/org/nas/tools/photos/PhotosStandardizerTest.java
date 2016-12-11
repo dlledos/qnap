@@ -62,9 +62,9 @@ public class PhotosStandardizerTest {
     private void assertNewFilename(String actualFilename, String expectedFilename) throws ImageProcessingException, IOException, TikaException, SAXException {
         File file = new File(getClass().getClassLoader().getResource(actualFilename).getFile());
         assertThat(file).exists();
-        //printMetatData(file);
+        printMetatData(file);
         assertThat(photosStandardizer.getNewFilename(file)).isEqualTo(expectedFilename);
-        assertThat(photosStandardizer.getNewDir(file)).isEqualTo(Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized");
+        assertThat(photosStandardizer.getNewDir(file)).isEqualTo(".");
     }
 
     private void printMetatData(File file) throws ImageProcessingException, IOException {

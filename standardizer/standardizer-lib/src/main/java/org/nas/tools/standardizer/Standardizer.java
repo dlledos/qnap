@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.text.Format;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,9 +40,11 @@ public abstract class Standardizer {
         List<File> matchingFile = findMatchingFile(sourceDirectory);
         if (matchingFile != null)
             for (File file : matchingFile) {
+                movedFileCount++;
+                String format = "%0" + String.valueOf(matchingFile.size()).length() +"d";
+                System.out.format(format, movedFileCount).print(" / " +matchingFile.size() + " ");
                 try {
                     mover.move(file);
-                    movedFileCount++;
                 } catch (Exception e) {
                     System.out.println("Fail to move file : " + file);
                     e.printStackTrace();
