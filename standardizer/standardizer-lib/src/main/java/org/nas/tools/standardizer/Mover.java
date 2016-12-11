@@ -3,7 +3,6 @@ package org.nas.tools.standardizer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
@@ -34,10 +33,9 @@ public class Mover {
             }
         }
         else {
-
             File doublons = Paths.get(destinationFolder.getAbsolutePath(), "doublons").toFile();
             doublons.mkdirs();
-            target = chooseTarget(destinationFolder, "doublons");
+            target = chooseTarget(destinationFolder, "doublons", source.getName());
             System.out.println("  moving doublon " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
             if (!dryRun) {
                 Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -54,10 +52,10 @@ public class Mover {
     }
 
     private File chooseTarget(File source, String newDir) {
-        return chooseTarget(newDir, standardizer.getNewFilename(source), source);
+        return chooseTarget(source, newDir, standardizer.getNewFilename(source));
     }
 
-    private File chooseTarget(String newDir, String newFilename, File source) {
+    private File chooseTarget(File source, String newDir, String newFilename) {
         File file = Paths.get(destinationFolder.getPath(), newDir, newFilename).toFile();
         if (file.exists() && file.length() != source.length()) {
             Pattern pattern = Pattern.compile("(.*)copy([0-9]+)\\..*");
@@ -71,7 +69,7 @@ public class Mover {
                 filenameBegin = newFilename.substring(0, newFilename.lastIndexOf(".")) + ".";
             }
             String newFilenameCopy = filenameBegin + "copy" + String.valueOf(number) + newFilename.substring(newFilename.lastIndexOf("."));
-            return chooseTarget(newDir, newFilenameCopy, source);
+            return chooseTarget(source, newDir, newFilenameCopy);
         }
         return file;
     }
