@@ -37,7 +37,7 @@ public class Mover {
 
             File doublons = Paths.get(destinationFolder.getAbsolutePath(), "doublons").toFile();
             doublons.mkdirs();
-            target = new File(doublons, target.getName());
+            target = chooseTarget(destinationFolder, "doublons");
             System.out.println("  moving doublon " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
             if (!dryRun) {
                 Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
