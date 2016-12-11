@@ -33,8 +33,16 @@ public class Mover {
                 Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
         }
-        else
-            System.out.println("  same file " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
+        else {
+
+            File doublons = Paths.get(destinationFolder.getAbsolutePath(), "doublons").toFile();
+            doublons.mkdirs();
+            target = new File(doublons, target.getName());
+            System.out.println("  moving doublon " + source.getAbsolutePath() + " -> " + target.getAbsolutePath());
+            if (!dryRun) {
+                Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
     }
 
     private String getParentDir(File source) {
