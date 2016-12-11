@@ -14,7 +14,6 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -45,6 +44,7 @@ public class PhotosStandardizerTest {
         assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG.jpg");
         assertNewFilename("VID.mp4", "2015-07-30_11-59-36.VID.mp4");
         assertNewFilename("VID.MOV", "2014-03-17_13-00-17.VID.mov");
+
     }
 
     @Test
@@ -62,7 +62,7 @@ public class PhotosStandardizerTest {
     private void assertNewFilename(String actualFilename, String expectedFilename) throws ImageProcessingException, IOException, TikaException, SAXException {
         File file = new File(getClass().getClassLoader().getResource(actualFilename).getFile());
         assertThat(file).exists();
-        printMetatData(file);
+        //printMetatData(file);
         assertThat(photosStandardizer.getNewFilename(file)).isEqualTo(expectedFilename);
         assertThat(photosStandardizer.getNewDir(file)).isEqualTo(".");
     }
