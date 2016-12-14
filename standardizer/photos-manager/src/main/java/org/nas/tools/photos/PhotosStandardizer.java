@@ -88,7 +88,8 @@ public class PhotosStandardizer extends Standardizer {
             tika.getParser().parse(stream, contentHandler, metadata, e);
             Date date = metadata.getDate(org.apache.tika.metadata.Metadata.DATE);
             if (date.compareTo(new Date(-2082844800000L)) == 0) {
-                date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(contentHandler.toString());
+                String content = contentHandler.toString();
+                date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(content.substring(0, content.indexOf("\nLavf")));
             }
             return date;
         } catch (Exception e) {
