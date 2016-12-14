@@ -12,11 +12,11 @@
 
     <groupId>org.nas.tools.photos-manager</groupId>
     <artifactId>photos-manager</artifactId>
-    <version>1.16</version>
+    <version>1.17-SNAPSHOT</version>
     <packaging>jar</packaging>
     <scm>
         <developerConnection>scm:git:https://github.com/dlledos/qnap.git</developerConnection>
-        <tag>photos-manager-1.16</tag>
+        <tag>HEAD</tag>
     </scm>
     <build>
         <extensions>
