@@ -29,7 +29,7 @@ public class PhotosStandardizerTest {
         temporaryFolder.create();
         destinationDirectory = temporaryFolder.newFolder();
         sourceDirectory = temporaryFolder.newFolder();
-        photosStandardizer = new PhotosStandardizer();
+        photosStandardizer = new PhotosStandardizer(true);
     }
 
     @After
@@ -43,7 +43,8 @@ public class PhotosStandardizerTest {
         assertNewFilename("IMG1.JPG", "2015-02-07_19-00-32.IMG.jpg");
         assertNewFilename("PANO.jpg", "2014-12-14_12-21-14.IMG.jpg");
         assertNewFilename("VID.MOV", "2014-03-17_13-00-17.VID.mov");
-    }
+        assertNewFilename("1904.mp4", "2015-09-11_19-38-58.VID.mp4");
+   }
 
     @Test
     public void pattern() throws Exception {
