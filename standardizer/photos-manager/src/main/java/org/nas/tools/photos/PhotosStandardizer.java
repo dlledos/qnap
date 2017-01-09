@@ -5,7 +5,6 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import com.drew.metadata.file.FileMetadataDirectory;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 import org.apache.tika.parser.ParseContext;
@@ -18,7 +17,6 @@ import org.nas.tools.standardizer.Standardizer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,11 +27,14 @@ import java.util.regex.Pattern;
 public class PhotosStandardizer extends Standardizer {
 
     public static final Pattern VIDEO_AND_IMAGE_PATTERN = Pattern.compile(".*" + DOT_SEPARATOR + "(mp4|mov|jpg|jpeg)", Pattern.CASE_INSENSITIVE);
-    PhotosStandardizer(){
+    private boolean lastWriteAcces;
+
+    PhotosStandardizer(boolean lastWriteAcces){
+        this.lastWriteAcces = lastWriteAcces;
         pattern = VIDEO_AND_IMAGE_PATTERN;
     }
     public static void main(String[] args) throws Exception {
-        Main.standardize(args, new PhotosStandardizer());
+        Main.standardize(args, new PhotosStandardizer(false));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class PhotosStandardizer extends Standardizer {
 
     @Override
     public String getNewDir(File file) {
-        return Paths.get(file.getPath()).getParent().getFileName().toString() + "-standardized";
+        return ".";
     }
 
     @Override
@@ -83,8 +84,20 @@ public class PhotosStandardizer extends Standardizer {
             ParseContext e = new ParseContext();
             e.set(Parser.class, tika.getParser());
             org.apache.tika.metadata.Metadata metadata = new org.apache.tika.metadata.Metadata();
-            tika.getParser().parse(stream, new BodyContentHandler(handler), metadata, e);
-            return metadata.getDate(org.apache.tika.metadata.Metadata.DATE);
+            BodyContentHandler contentHandler = new BodyContentHandler(handler);
+            tika.getParser().parse(stream, contentHandler, metadata, e);
+            Date date = metadata.getDate(org.apache.tika.metadata.Metadata.DATE);
+            if (date.compareTo(new Date(-2082844800000L)) == 0) {
+                String content = contentHandler.toString();
+                int endIndex = content.indexOf("\nLavf");
+                if (endIndex != -1) {
+                    date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(content.substring(0, endIndex));
+                }
+                else {
+                    date = new Date(file.lastModified());
+                }
+            }
+            return date;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -94,6 +107,9 @@ public class PhotosStandardizer extends Standardizer {
         Date date = getDate(file, ExifIFD0Directory.class, ExifIFD0Directory.TAG_DATETIME);
         if (date == null) {
             date = getDate(file, ExifSubIFDDirectory.class, ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+        }
+        if (date == null && lastWriteAcces) {
+            date = new Date(file.lastModified());
         }
         return date;
     }
