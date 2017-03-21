@@ -26,7 +26,7 @@ do
 		#echo "mv $I ${DEBUT}.S${SAISON_A_TRAITER}E${NOUVEL_EPISODE}.${FIN}"
 		
 		
-		cmd=$(printf "mv \'$I\' \'${DEBUT}.S%02dE%02d.${FIN}\'\n" $SAISON_A_TRAITER $NOUVEL_EPISODE)
+		cmd=$(printf "mv \"$I\" \"${DEBUT}.S%02dE%02d.${FIN}\"\n" $SAISON_A_TRAITER $NOUVEL_EPISODE)
 		echo $cmd
 		eval $cmd
 	fi

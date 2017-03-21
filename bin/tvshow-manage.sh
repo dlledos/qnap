@@ -16,8 +16,8 @@ do
 	SAISON=$(printf "%02d" $(echo $((10#$(echo "$SE" | sed -e "s/[S|s]\([0-9]\+\)[E|e]\([0-9]\+\)/\1/")))))
 	EPISODE=$(printf "%02d" $(echo $((10#$(echo "$SE" | sed -e "s/[S|s]\([0-9]\+\)[E|e]\([0-9]\+\)/\2/")))))
 	FIN=$(echo "$RES" | cut -d " " -f1 | perl -ne 'chomp;print scalar reverse . "\n";')
-	FILE="${DEBUT}.S${SAISON}E$EPISODE$FIN"
-	DIR=$DEBUT
+	DIR=$(echo $DEBUT | sed -r 's/(^.|\..)/\U&/g')
+	FILE="${DIR}.S${SAISON}E$EPISODE$FIN"
 	mkdir -p "$DEST/$DIR"
 	echo mv "$I" "$DEST/$DIR/$FILE" >&2
 	mv "$I" "$DEST/$DIR/$FILE"
