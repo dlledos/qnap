@@ -9,7 +9,6 @@ do
 	FILE=$(echo $I | tr -s " " "." | tr -s "_" "." | tr -s "-" "." | sed -e "s/.*\/\(.*\)/\1/" | sed -e "s/^\.\(.*\)/\1/")
 	#DIR=$(echo $FILE | sed -e "s/\(^.*\)\.\([S|s][0-9]\+[E|e][0-9]\+.*\)/\1/")
 	RES=$(echo $FILE | perl -ne 'chomp;print scalar reverse . "\n";' | sed -e "s/\(.*\.\)\([0-9]\+[E|e][0-9]\+[S|s]\)\.\(.*\)/\1 \2 \3/")
-	echo $RES
 	#RES=$(echo $FILE | sed -e "s/\(.*\)[S|s]\([0-9]\+\)[E|e]\([0-9]\+\)\(.*\)/\1 \2 \3 \4/")
 	DEBUT=$(echo "$RES" | cut -d " " -f3 | perl -ne 'chomp;print scalar reverse . "\n";')
 	SE=$(echo "$RES" | cut -d " " -f2 | perl -ne 'chomp;print scalar reverse . "\n";')

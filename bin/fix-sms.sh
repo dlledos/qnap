@@ -1,6 +1,6 @@
 #!/bin/sh -e
 DATE=$(date +"%Y-%m-%d.%H:%M:%S")
-DIR="/home/dlledos/Dropbox/Applications/SMSBackupRestore/Applications/SMSBackupRestore"
+DIR="/share/CACHEDEV1_DATA/Multimedia/Cloud-Drive-Sync/Dropbox/Applications/SMSBackupRestore/Applications/SMSBackupRestore/"
 FILE="$DIR/sms.xml"
 DEST="$DIR/sms.$DATE.xml"
 
