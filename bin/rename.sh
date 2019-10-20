@@ -1,7 +1,8 @@
-#!/bin/bash -x
+#!/bin/bash
 
 MOTIF=$1
 REMPLACE=$2
+dryrun=${3:"no"}
 
 if [ $# -gt 2 ]
 then
@@ -12,13 +13,16 @@ IFS=$'\n'
 for I in $(find . -type f -regex ".*$MOTIF.*" | grep -v ".@__thumb")
 do
 	DEST=$(echo "$I" | sed -e "s/\(.*\)$MOTIF\(.*\)/\1$REMPLACE\2/")
-	CMD="mv '$I' '$DEST'"
-	echo $CMD
+	CMD="mv \"$I\" \"$DEST\""
 	if [ ! "$blank" == "true" ]
 	then 
-		eval $CMD
+		if [ "$dryrun" != "no" ]
+		then
+			eval $CMD
+		fi
 	else
-		echo "nothing done"
+		echo -n "nothing done for "
 	fi
+	echo $CMD
 done
 
