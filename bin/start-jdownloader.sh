@@ -11,7 +11,7 @@ if [ "$RUNNING" -ne 1 ]
 then
 	echo "Starting Jdownloader2 ..."
 	cd /tmp
-	/share/CACHEDEV1_DATA/.qpkg/JDownloader2/JDownloader2.sh
+	/share/CACHEDEV1_DATA/.qpkg/JDownloader2/JDownloader2.sh start
 	#/opt/bin/nohup /share/CACHEDEV1_DATA/.qpkg/jd2/opt/JDownloader2 &
 else
 	echo "Jdownloader2 already strated with PID = $PID ..."

@@ -7,7 +7,7 @@ DEST=${2:-"/share/CACHEDEV1_DATA/Multimedia/Série"}
 dryrun=${3:-"no"}
 
 IFS=$'\n'
-for I in $(find $SRC -type f -regex ".*[s|S][0-9]+[e|E][0-9]+.*[mkv|mp4|avi|MKV|AVI|MP4]$" | grep -v ".@__thumb")
+for I in $(find $SRC -type f  -regextype posix-egrep -regex ".*[s|S][0-9]+[e|E][0-9]+.*\.(mkv|mp4|avi|MKV|AVI|MP4|ts|TS|flac)$" | grep -v ".@__thumb")
 do
 	FILE=$(echo $I | tr -s "\!" "." | tr -s " " "." | tr -s "\[" "." | tr -s "\]" "." | tr -s "_" "." | tr -s "-" "." | sed -e "s/.*\/\(.*\)/\1/" | sed -e "s/^\.\(.*\)/\1/")
 	#DIR=$(echo $FILE | sed -e "s/\(^.*\)\.\([S|s][0-9]\+[E|e][0-9]\+.*\)/\1/")
@@ -28,7 +28,6 @@ do
 	else
 		if [ "$dryrun" == "no" ]
 	        then
-			echo mv "$I" "$DEST/$DIR/$FILE" >&2
 			mv "$I" "$DEST/$DIR/$FILE"
 		fi
 		echo mv "$I" "$DEST/$DIR/$FILE" >&2
